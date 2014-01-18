@@ -10,13 +10,10 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// start to touch
-		if (Input.GetMouseButtonDown(0)) {
-			Ray clkRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		}
-		else if (Input.GetMouseButtonUp(0)) {
-
-		}
 	}
+
+    public void shoot(Vector3 start_pos, Vector3 end_pos, double time) {
+        this.rigidbody.velocity= (end_pos - start_pos).normalized * 25;
+    }
 }
