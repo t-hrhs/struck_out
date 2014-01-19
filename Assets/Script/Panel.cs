@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Panel : MonoBehaviour {
-    public static int judge_point_z = 14;
+    public static double judge_point_z = 13.5f;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,7 +10,7 @@ public class Panel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (this.transform.position.z > judge_point_z) {
+	    if (this.transform.position.z > (float)judge_point_z) {
             //constraintの初期化
             this.rigidbody.constraints = RigidbodyConstraints.None;
             //colliderの判定をoffにする
