@@ -2,11 +2,16 @@
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+    //TODO : enumにしてわかりやすい変数の持ち方にする
+    //GameStatus
+    //user_touchable : 0
+    //ball_moving : 1
+    public static int game_status = 0;
     Vector3 flick_start = Vector3.zero;
     Vector3 flick_end = Vector3.zero;
 	// Use this for initialization
 	void Start () {
-	
+	    game_status = 0;
 	}
 	
 	// Update is called once per frame
@@ -21,6 +26,7 @@ public class GameController : MonoBehaviour {
             flick_end = get_touch_point();
             GameObject ball = GameObject.Find("Ball");
             Ball ball_script = ball.GetComponent<Ball>();
+            game_status = 1;
             ball_script.shoot(flick_start, flick_end, 1);
             flick_start = Vector3.zero;
             flick_end = Vector3.zero;
