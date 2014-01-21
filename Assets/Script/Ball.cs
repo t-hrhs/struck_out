@@ -14,7 +14,7 @@ public class Ball : MonoBehaviour {
             this.rigidbody.angularVelocity = Vector3.zero;
             this.rigidbody.velocity = Vector3.zero;
             this.transform.position = ball_standard_position;
-            GameController.game_status = 0;
+            GameController.game_status = 2;
         }
 	}
 
