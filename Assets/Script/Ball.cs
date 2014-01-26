@@ -13,7 +13,13 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if ((this.transform.position.z > 13.6f && this.rigidbody.velocity.magnitude < 1.0 || this.rigidbody.velocity.z < 0) && GameController.game_status == 1)  {
+        if (
+                (this.transform.position.z > 13.6f && this.rigidbody.velocity.magnitude < 1.0 ||
+                 this.transform.position.x > 8 ||
+                 this.transform.position.x < -8 ||
+                 this.rigidbody.velocity.magnitude < 0.05f ||
+                 this.rigidbody.velocity.z < 0) && 
+                GameController.game_status == 1)  {
             this.rigidbody.angularVelocity = Vector3.zero;
             this.rigidbody.velocity = Vector3.zero;
             this.transform.position = ball_standard_position;
