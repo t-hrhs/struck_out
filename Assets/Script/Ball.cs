@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Ball : MonoBehaviour {
-    public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-14.3f);
+    public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-11.0f);
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
