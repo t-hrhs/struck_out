@@ -27,6 +27,7 @@ public class Ball : MonoBehaviour {
         }
 	}
 
+    //shootメソッド : ドラッグで離したポイント + Pointerの高さ
     public void shoot(Vector3 start_pos, Vector3 end_pos, double time) {
         ac_x = ac_max * (float)Pointer.ac_prop();
         this.rigidbody.velocity= (end_pos - start_pos).normalized * 25;

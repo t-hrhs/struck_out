@@ -9,11 +9,12 @@ public class GameController : MonoBehaviour {
     //clear_check : 2
     public static int game_status = 0;
     public GameObject PanelPrefab;
+    public GameObject ball;
     public static bool touch_for_flick = true;
-    Vector3 flick_start = Vector3.zero;
     Vector3 flick_end = Vector3.zero;
 	// Use this for initialization
 	void Start () {
+        ball = GameObject.Find("Ball");
         //game_statusをuser_touchableにする
 	    game_status = 0;
         //実際にpanelをinitiate
@@ -33,23 +34,21 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    //フリック開始判定
-        if (Input.GetMouseButtonDown(0) && game_status == 0) {
-            flick_start = get_touch_point();
-            flick_start.y = 0.0f;
-        }
         //フリック開始終了
         if (Input.GetMouseButtonUp(0) && game_status == 0) {
             flick_end = get_touch_point();
             if (touch_for_flick) {
-                GameObject ball = GameObject.Find("Ball");
+                //ball = GameObject.Find("Ball");
                 Ball ball_script = ball.GetComponent<Ball>();
                 game_status = 1;
-                ball_script.shoot(flick_start, flick_end, 1);
-                flick_start = Vector3.zero;
+                ball_script.shoot(ball.transform.position, flick_end, 1);
                 flick_end = Vector3.zero;
             }
             touch_for_flick = true;
+        }
+        //ドラッグ中
+        else if (Input.GetMouseButton(0) && game_status == 0) {
+            get_touch_point();
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
@@ -94,6 +93,12 @@ public class GameController : MonoBehaviour {
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
+            Vector3 ball_direction = -1 * (hit_point - ball.transform.position);
+            DrawLine.ball_direction = new Vector3(
+                ball_direction.x,
+                DrawLine.ball_direction.y,
+                ball_direction.z
+            );
             return hit_point;
         }
         Debug.Log("fatal error");

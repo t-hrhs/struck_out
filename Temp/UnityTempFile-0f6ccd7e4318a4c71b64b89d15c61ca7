@@ -37,6 +37,7 @@
 -define:UNITY_EDITOR_OSX
 'Assets/Script/Ball.cs'
 'Assets/Script/Config.cs'
+'Assets/Script/DrawLine.cs'
 'Assets/Script/GameController.cs'
 'Assets/Script/Panel.cs'
 'Assets/Script/Pointer.cs'
