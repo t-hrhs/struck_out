@@ -13,6 +13,7 @@ public class DrawLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //Debug.Log(ball_direction);
         if (GameController.game_status==0) {
             //TODO : fpsがつらくなったらここはpositionを固定にする
             lineRenderer.enabled = true;

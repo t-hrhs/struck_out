@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Ball : MonoBehaviour {
-    public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-11.0f);
+    public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-10.0f);
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
@@ -29,6 +29,7 @@ public class Ball : MonoBehaviour {
 
     //shootメソッド : ドラッグで離したポイント + Pointerの高さ
     public void shoot(Vector3 start_pos, Vector3 end_pos, double time) {
+        start_pos = new Vector3(start_pos.x,0,start_pos.z);
         ac_x = ac_max * (float)Pointer.ac_prop();
         this.rigidbody.velocity= (end_pos - start_pos).normalized * 25;
     }
