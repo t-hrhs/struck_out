@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
     //発射開始の座標を取得したか(flick_end)
     public static bool touch_for_flick = true;
     Vector3 flick_end = Vector3.zero;
+    public static float max_height = 12.0f;
 	// Use this for initialization
 	void Start () {
         //game_statusをuser_touchableにする

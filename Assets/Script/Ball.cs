@@ -29,7 +29,11 @@ public class Ball : MonoBehaviour {
 
     public void shoot(Vector3 start_pos, Vector3 end_pos, double time) {
         ac_x = ac_max * (float)Pointer.ac_prop();
-        this.rigidbody.velocity= (end_pos - start_pos).normalized * 25;
+        Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
+        Debug.Log(temp);
+        temp = new Vector3 (temp.x,Pointer.ball_height*2, temp.z);
+        temp = temp.normalized * 25;
+        this.rigidbody.velocity= temp;
     }
 
     void FixedUpdate() {
