@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Ball : MonoBehaviour {
@@ -27,12 +28,13 @@ public class Ball : MonoBehaviour {
         }
 	}
 
-    public void shoot(Vector3 start_pos, Vector3 end_pos, double time) {
+    public void shoot(Vector3 start_pos, Vector3 end_pos, TimeSpan time) {
         ac_x = ac_max * (float)Pointer.ac_prop();
         Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
-        Debug.Log(temp);
-        temp = new Vector3 (temp.x,Pointer.ball_height*2, temp.z);
-        temp = temp.normalized * 25;
+        temp = new Vector3 (temp.x,Pointer.ball_height, temp.z);
+        int time_evaluation = time_ev((int)time.TotalMilliseconds);
+        int dis_evaluation = dis_ev((end_pos - start_pos).magnitude);
+        temp = temp.normalized * time_evaluation * dis_evaluation;
         this.rigidbody.velocity= temp;
     }
 
@@ -40,6 +42,31 @@ public class Ball : MonoBehaviour {
         if (GameController.game_status == 1) {
             float temp = (float)this.rigidbody.velocity.x + ac_x;
             this.rigidbody.velocity = new Vector3(temp, this.rigidbody.velocity.y, this.rigidbody.velocity.z);
+        }
+    }
+
+    int time_ev(int milli_sec) {
+        if (milli_sec < 200) {
+            return 6;
+        } else if (milli_sec < 400) {
+            return 5;
+        } else if (milli_sec < 600) {
+            return 4;
+        } else if (milli_sec < 800) {
+            return 3;
+        } else {
+            return 2;
+        }
+    }
+
+    int dis_ev(float distance) {
+        float ball_panel_distance = GameController.ball_panel_distance;
+        if (ball_panel_distance <= distance) {
+            return 6;
+        } else if(ball_panel_distance * 0.5 <= distance) {
+            return 5;
+        } else {
+            return 4;
         }
     }
 }

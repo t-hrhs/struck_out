@@ -19,7 +19,7 @@ public class TopPage : MonoBehaviour {
         //ボタンの色の都合(あまり意味はない)
         GUI.backgroundColor = Color.yellow;
         Rect rect = new Rect(10,10,800,100);
-        GUI.Label(rect,"パネル抜き!!");
+        GUI.Label(rect,"Kick Target");
         if (GUI.Button(new Rect(25, 150, 180, 150),"1st STG")) {
             //Go to the 1st STG
             Application.LoadLevel("GameScene");

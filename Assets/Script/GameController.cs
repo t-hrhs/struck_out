@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+    public GUISkin style;
     //TODO : enumにしてわかりやすい変数の持ち方にする
     //GameStatus
     //user_touchable : 0
@@ -19,10 +21,20 @@ public class GameController : MonoBehaviour {
     public static bool touch_for_flick = true;
     Vector3 flick_end = Vector3.zero;
     public static float max_height = 12.0f;
+    public static DateTime start_time;
+    public static DateTime end_time;
+    public Panel[,] panels;
+    public static int total_score = 0;
+    public static int total_ball_num = 15;
+    public static bool is_cleared = true;
 	// Use this for initialization
 	void Start () {
         //game_statusをuser_touchableにする
 	    game_status = 0;
+        total_score = 0;
+        total_ball_num = 15;
+        is_cleared = true;
+        panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
         //実際にpanelをinitiate
         for (int i = 0; i < Config.panel_width_num; i++) {
             for (int j = 0; j < Config.panel_height_num[Config.stage_id];j++) {
@@ -34,6 +46,7 @@ public class GameController : MonoBehaviour {
                         ),
                         Quaternion.identity
                 ) as GameObject;
+                panels[i,j] = temp.GetComponent<Panel>();
             }
         }
         ball_start_position = GameObject.Find("Ball").transform.position;
@@ -54,7 +67,9 @@ public class GameController : MonoBehaviour {
                 GameObject ball = GameObject.Find("Ball");
                 Ball ball_script = ball.GetComponent<Ball>();
                 game_status = 1;
-                ball_script.shoot(ball_start_position, flick_end, 1);
+                end_time = DateTime.Now;
+                ball_script.shoot(ball_start_position, flick_end, end_time-start_time);
+                total_ball_num--;
                 flick_end = Vector3.zero;
             }
             ball_touch = false;
@@ -66,7 +81,23 @@ public class GameController : MonoBehaviour {
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
-            game_status = 0;
+            bool ok = true;
+            for(int i=0;i<Config.panel_width_num;i++) {
+               for(int j = 0;j < Config.panel_height_num[Config.stage_id];j++) {
+                    if (!panels[i,j].clear_flag) {
+                        ok = false;
+                        break;
+                    }
+               }
+            }
+            if (ok) {
+                Application.LoadLevel("ResultPage");
+            } else if (total_ball_num == 0) {
+                is_cleared = false;
+                Application.LoadLevel("ResultPage");
+            } else  {
+                game_status = 0;
+            }
         }
 	}
 
@@ -86,6 +117,7 @@ public class GameController : MonoBehaviour {
             //ボールに衝突した場合
             if (hit.collider.gameObject.tag=="my_ball") {
                 ball_touch = true;
+                start_time = DateTime.Now;
                 return Vector3.zero;
             }
             //回転・高さの調節をしたい場合
@@ -112,5 +144,15 @@ public class GameController : MonoBehaviour {
         }
         Debug.Log("fatal error about ray cast!!");
         return Vector3.zero;
+    }
+    //スコア + ボール所持数の表示
+    void OnGUI () {
+        GUI.skin = style;
+        Rect rect = new Rect(10,10,600,60);
+        string score = "スコア : " + total_score.ToString() + "点";
+        GUI.Label(rect,score);
+        Rect rect2 = new Rect(10,60,600,60);
+        string ball_num = "残りボール数 : " + total_ball_num.ToString() + "個";
+        GUI.Label(rect2,ball_num);
     }
 }
