@@ -20,7 +20,7 @@ public class ResultPage : MonoBehaviour {
         Rect rect = new Rect(10,10,600,100);
         GUI.Label(rect,"Result");
         if (GameController.is_cleared) {
-            string temp = "クリア!!\n" + GameController.total_score.ToString() + "点\n獲得!!";
+            string temp = "クリア!!\n" + GameController.total_score.ToString() + "点獲得!!";
             GUI.Label(new Rect(20,200,600,300),temp);
         } else {
             string temp = "残念!!\nクリアできず…";
