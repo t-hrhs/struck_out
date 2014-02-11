@@ -4,12 +4,13 @@ using System.Collections;
 
 public class Ball : MonoBehaviour {
     public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-14.3f);
+    public static float power = 0;
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
 	// Use this for initialization
 	void Start () {
-	
+	    power = 0;
 	}
 	
 	// Update is called once per frame
@@ -34,6 +35,7 @@ public class Ball : MonoBehaviour {
         temp = new Vector3 (temp.x,Pointer.ball_height, temp.z);
         int time_evaluation = time_ev((int)time.TotalMilliseconds);
         int dis_evaluation = dis_ev((end_pos - start_pos).magnitude);
+        power = (float)time_evaluation * dis_evaluation / 36 * 100;
         temp = temp.normalized * time_evaluation * dis_evaluation;
         this.rigidbody.velocity= temp;
     }

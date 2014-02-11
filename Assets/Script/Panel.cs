@@ -17,10 +17,21 @@ public class Panel : MonoBehaviour {
             this.rigidbody.constraints = RigidbodyConstraints.None;
             if (!this.clear_flag) {
                 GameController.total_score += point;
+                GameController.panel_num--;
             }
             this.clear_flag = true;
             //colliderの判定をoffにする
             //this.collider.enabled = false;
         }
 	}
+
+    public void make_target(int temp) {
+        this.point = 1000 * temp;
+        this.renderer.material.color = Color.red;
+    }
+
+    public void setDefault() {
+        this.renderer.material.color = Color.white;
+        this.point = 1000;
+    }
 }
