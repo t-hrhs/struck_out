@@ -14,8 +14,16 @@ public class DrawLine : MonoBehaviour {
 	void Update () {
 	    if (GameController.game_status == 0) {
             lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0,GameController.ball_start_position);
-            lineRenderer.SetPosition(1,ball_direction);
+            lineRenderer.SetPosition(0,new Vector3(
+                GameController.ball_start_position.x,
+                0.01f,
+                GameController.ball_start_position.z
+             ));
+            lineRenderer.SetPosition(1,new Vector3(
+                ball_direction.x,
+                0.01f,
+                ball_direction.z
+            ));
         } else {
             lineRenderer.enabled = false;
         }

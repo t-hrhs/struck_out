@@ -20,19 +20,26 @@ public class GameController : MonoBehaviour {
     //発射開始の座標を取得したか(flick_end)
     public static bool touch_for_flick = true;
     Vector3 flick_end = Vector3.zero;
-    public static float max_height = 12.0f;
+    public static float max_height = 20.0f;
     public static DateTime start_time;
     public static DateTime end_time;
     public Panel[,] panels;
+    public static int panel_num = 9;
     public static int total_score = 0;
     public static int total_ball_num = 15;
+    //乱数のseed
+    public static int seed;
+    System.Random rnd;
     public static bool is_cleared = true;
 	// Use this for initialization
 	void Start () {
+        seed = Environment.TickCount;
+        rnd = new System.Random(seed);
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
         total_ball_num = 15;
+        panel_num = 9;
         is_cleared = true;
         panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
         //実際にpanelをinitiate
@@ -51,6 +58,7 @@ public class GameController : MonoBehaviour {
         }
         ball_start_position = GameObject.Find("Ball").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
+        panel_choice();
 	}
 	
 	// Update is called once per frame
@@ -97,6 +105,12 @@ public class GameController : MonoBehaviour {
                 Application.LoadLevel("ResultPage");
             } else  {
                 game_status = 0;
+                for (int i = 0;i<Config.panel_width_num;i++){
+                    for (int j=0;j<Config.panel_height_num[Config.stage_id];j++) {
+                        panels[i,j].setDefault();
+                    }
+                }
+                panel_choice();
             }
         }
 	}
@@ -133,7 +147,7 @@ public class GameController : MonoBehaviour {
             }
             //それ以外に衝突した場合(方向調整)
             else {
-                if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z) {
+                if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z + 4) {
                     Vector3 temp = new Vector3(hit_point.x,ball_start_position.y,hit_point.z);
                     temp = temp - ball_start_position;
                     temp = temp * ball_panel_distance / temp.z;
@@ -145,6 +159,30 @@ public class GameController : MonoBehaviour {
         Debug.Log("fatal error about ray cast!!");
         return Vector3.zero;
     }
+
+    //ランダムにスコア2倍のパネルを選択する
+    void panel_choice() {
+        int index = rnd.Next(panel_num);
+        index++;
+        int count = 0;
+        int ok = 0;
+        for (int i = 0;i<Config.panel_width_num;i++) {
+            for (int j = 0;j<Config.panel_height_num[Config.stage_id];j++) {
+                if (!panels[i,j].clear_flag) {
+                    count ++;
+                }
+                if (count == index) {
+                    panels[i,j].make_target(2);
+                    ok = 1;
+                    break;
+                }
+            }
+            if (ok==1) {
+                break;
+            }
+        }
+    }
+
     //スコア + ボール所持数の表示
     void OnGUI () {
         GUI.skin = style;
@@ -154,5 +192,8 @@ public class GameController : MonoBehaviour {
         Rect rect2 = new Rect(10,60,600,60);
         string ball_num = "残りボール数 : " + total_ball_num.ToString() + "個";
         GUI.Label(rect2,ball_num);
+        Rect rect3 = new Rect(10,1050,600,60);
+        string power = "パワー : " + ((int)Ball.power).ToString();
+        GUI.Label(rect3,power);
     }
 }
