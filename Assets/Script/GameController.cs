@@ -147,7 +147,7 @@ public class GameController : MonoBehaviour {
             }
             //それ以外に衝突した場合(方向調整)
             else {
-                if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z + 4) {
+                if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z + 7) {
                     Vector3 temp = new Vector3(hit_point.x,ball_start_position.y,hit_point.z);
                     temp = temp - ball_start_position;
                     temp = temp * ball_panel_distance / temp.z;
