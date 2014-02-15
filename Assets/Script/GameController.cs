@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
                 panels[i,j] = temp.GetComponent<Panel>();
             }
         }
-        ball_start_position = GameObject.Find("Ball").transform.position;
+        ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
         panel_choice();
 	}
@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour {
             flick_end = get_touch_point();
             //ボールに既に触れていて調節に触れていない時
             if (ball_touch && touch_for_flick) {
-                GameObject ball = GameObject.Find("Ball");
+                GameObject ball = GameObject.Find("SoccerBall");
                 Ball ball_script = ball.GetComponent<Ball>();
                 game_status = 1;
                 end_time = DateTime.Now;
