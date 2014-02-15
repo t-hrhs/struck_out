@@ -31,10 +31,13 @@ public class GameController : MonoBehaviour {
     public static int seed;
     System.Random rnd;
     public static bool is_cleared = true;
+    //ホイッスル
+    AudioSource audioSource;
 	// Use this for initialization
 	void Start () {
         seed = Environment.TickCount;
         rnd = new System.Random(seed);
+        audioSource = this.GetComponent<AudioSource>();
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
@@ -59,6 +62,7 @@ public class GameController : MonoBehaviour {
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
         panel_choice();
+        audioSource.Play();
 	}
 	
 	// Update is called once per frame

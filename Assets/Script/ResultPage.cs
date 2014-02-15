@@ -3,9 +3,11 @@ using System.Collections;
 
 public class ResultPage : MonoBehaviour {
     public GUISkin style;
+    AudioSource audioSource;
 	// Use this for initialization
 	void Start () {
-	
+	    audioSource = this.GetComponent<AudioSource>();
+        audioSource.Play();
 	}
 	
 	// Update is called once per frame

@@ -5,11 +5,13 @@ using System.Collections;
 public class Ball : MonoBehaviour {
     public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-14.3f);
     public static float power = 0;
+    AudioSource audioSource;
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
 	// Use this for initialization
 	void Start () {
+        audioSource = this.GetComponent<AudioSource>();
 	    power = 0;
 	}
 	
@@ -69,6 +71,16 @@ public class Ball : MonoBehaviour {
             return 5;
         } else {
             return 4;
+        }
+    }
+
+    //パネルに衝突した際に効果音を導入する
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Panel") {
+            Panel panel = collision.gameObject.GetComponent<Panel>();
+            if(!panel.clear_flag) {
+                audioSource.Play();
+            }
         }
     }
 }
