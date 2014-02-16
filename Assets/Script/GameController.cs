@@ -149,6 +149,11 @@ public class GameController : MonoBehaviour {
                 Pointer pointer = pointer_obj.GetComponent<Pointer>();
                 pointer.change_position(hit.point);
             }
+            else if (touch_for_flick && (hit_point - ball_start_position).magnitude < 4) {
+                ball_touch = true;
+                start_time = DateTime.Now;
+                return Vector3.zero;
+            }
             //それ以外に衝突した場合(方向調整)
             else {
                 if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z + 7) {
