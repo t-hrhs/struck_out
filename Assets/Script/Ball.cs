@@ -31,7 +31,7 @@ public class Ball : MonoBehaviour {
         }
 	}
 
-    public void shoot(Vector3 start_pos, Vector3 end_pos, TimeSpan time) {
+    /*public void shoot(Vector3 start_pos, Vector3 end_pos, TimeSpan time) {
         ac_x = ac_max * (float)Pointer.ac_prop();
         Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
         temp = new Vector3 (temp.x,Pointer.ball_height, temp.z);
@@ -40,6 +40,14 @@ public class Ball : MonoBehaviour {
         power = (float)time_evaluation * dis_evaluation / 36 * 100;
         temp = temp.normalized * time_evaluation * dis_evaluation;
         this.rigidbody.velocity= temp;
+    }*/
+    public void shoot() {
+        ac_x = ac_max * (float)Pointer.ac_prop();
+        Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
+        temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
+        //power = 24;
+        temp = temp.normalized * power * 0.36f;
+        this.rigidbody.velocity = temp;
     }
 
     void FixedUpdate() {
@@ -49,7 +57,7 @@ public class Ball : MonoBehaviour {
         }
     }
 
-    int time_ev(int milli_sec) {
+    /*int time_ev(int milli_sec) {
         if (milli_sec < 200) {
             return 6;
         } else if (milli_sec < 400) {
@@ -72,7 +80,7 @@ public class Ball : MonoBehaviour {
         } else {
             return 4;
         }
-    }
+    }*/
 
     //パネルに衝突した際に効果音を導入する
     void OnCollisionEnter(Collision collision) {

@@ -15,11 +15,6 @@ public class GameController : MonoBehaviour {
     public static Vector3 ball_start_position;
     //ボールとパネルのz座標の距離
     public static float ball_panel_distance;
-    //発射の為にボールに既に触れているかのフラグ(flick_start)
-    public static bool ball_touch = false;
-    //発射開始の座標を取得したか(flick_end)
-    public static bool touch_for_flick = true;
-    Vector3 flick_end = Vector3.zero;
     public static float max_height = 20.0f;
     public static DateTime start_time;
     public static DateTime end_time;
@@ -31,6 +26,8 @@ public class GameController : MonoBehaviour {
     public static int seed;
     System.Random rnd;
     public static bool is_cleared = true;
+    //ボタンが押されたかを保持する
+    public static bool kick_button_touched = false;
     //ホイッスル
     AudioSource audioSource;
 	// Use this for initialization
@@ -44,6 +41,7 @@ public class GameController : MonoBehaviour {
         total_ball_num = 15;
         panel_num = 9;
         is_cleared = true;
+        kick_button_touched = false;
         panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
         //実際にpanelをinitiate
         for (int i = 0; i < Config.panel_width_num; i++) {
@@ -67,25 +65,29 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetMouseButtonUp(0) && kick_button_touched) {
+            GameObject ball = GameObject.Find("SoccerBall");
+            Ball ball_script = ball.GetComponent<Ball>();
+            ball_script.shoot();
+            game_status = 1;
+            total_ball_num--;
+            kick_button_touched = false;
+        }
+        else if (Input.GetMouseButton(0) && kick_button_touched) {
+            //Debug.Log(Ball.power);
+            if (Ball.power >= 100) {
+                Ball.power = 0;
+            } else {
+                Ball.power+= 2.0f;
+            }
+        }
 	    //フリック開始判定
-        if (Input.GetMouseButtonDown(0) && game_status == 0) {
+        else if (Input.GetMouseButtonDown(0) && game_status == 0) {
             get_touch_point();
         }
         //フリック開始終了
         else if (Input.GetMouseButtonUp(0) && game_status == 0) {
-            flick_end = get_touch_point();
-            //ボールに既に触れていて調節に触れていない時
-            if (ball_touch && touch_for_flick) {
-                GameObject ball = GameObject.Find("SoccerBall");
-                Ball ball_script = ball.GetComponent<Ball>();
-                game_status = 1;
-                end_time = DateTime.Now;
-                ball_script.shoot(ball_start_position, flick_end, end_time-start_time);
-                total_ball_num--;
-                flick_end = Vector3.zero;
-            }
-            ball_touch = false;
-            touch_for_flick = true;
+            get_touch_point();
         }
         //ドラッグ中
         else if (Input.GetMouseButton(0) && game_status == 0) {
@@ -132,31 +134,18 @@ public class GameController : MonoBehaviour {
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
-            //ボールに衝突した場合
-            if (hit.collider.gameObject.tag=="my_ball") {
-                ball_touch = true;
-                start_time = DateTime.Now;
-                return Vector3.zero;
-            }
             //回転・高さの調節をしたい場合
-            else if (hit.collider.gameObject.tag=="pointer" ||
+            if (hit.collider.gameObject.tag=="pointer" ||
                     hit.collider.gameObject.tag=="ball_cylinder") {
-                //この場合はボール発射ではないことを明記
-                touch_for_flick = false;
                 //pointerオブジェクトを探索する
                 GameObject pointer_obj = GameObject.Find("Pointer");
                 //pointerをタッチされた座標に更新する
                 Pointer pointer = pointer_obj.GetComponent<Pointer>();
                 pointer.change_position(hit.point);
             }
-            else if (touch_for_flick && (hit_point - ball_start_position).magnitude < 2) {
-                ball_touch = true;
-                start_time = DateTime.Now;
-                return Vector3.zero;
-            }
             //それ以外に衝突した場合(方向調整)
             else {
-                if (!ball_touch && touch_for_flick && hit_point.z > ball_start_position.z + 7) {
+                if (hit_point.z > ball_start_position.z + 2) {
                     Vector3 temp = new Vector3(hit_point.x,ball_start_position.y,hit_point.z);
                     temp = temp - ball_start_position;
                     temp = temp * ball_panel_distance / temp.z;
@@ -201,8 +190,14 @@ public class GameController : MonoBehaviour {
         Rect rect2 = new Rect(10,60,600,60);
         string ball_num = "残りボール数 : " + total_ball_num.ToString() + "個";
         GUI.Label(rect2,ball_num);
-        Rect rect3 = new Rect(10,1050,600,60);
+        Rect rect3 = new Rect(10,890,600,60);
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect3,power);
+        //Powerボタンの設置
+        if (GUI.RepeatButton (new Rect (10, 950, 300, 100), "Charge and Go!") && game_status == 0 && !kick_button_touched) {
+            Ball.power = 0;
+            kick_button_touched = true;
+            Debug.Log(kick_button_touched);
+        }
     }
 }
