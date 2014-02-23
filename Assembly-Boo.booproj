@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{5078C328-9EBD-1FFD-D529-63D49CD20F17}</ProjectGuid>
+	<ProjectGuid>{3EA6C3CE-8A34-9CC3-DC20-25B96702D62B}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-Boo</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,15 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\Ball.cs" />
-     <Compile Include="Assets\Script\Config.cs" />
-     <Compile Include="Assets\Script\DrawLine.cs" />
-     <Compile Include="Assets\Script\GameController.cs" />
-     <Compile Include="Assets\Script\Panel.cs" />
-     <Compile Include="Assets\Script\Pointer.cs" />
-     <Compile Include="Assets\Script\PowerGauge.cs" />
-     <Compile Include="Assets\Script\ResultPage.cs" />
-     <Compile Include="Assets\Script\TopPage.cs" />
+     <Compile Include="Assets\Prefab\NewBehaviourScript.boo" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

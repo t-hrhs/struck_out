@@ -52,6 +52,7 @@
      <Compile Include="Assets\Script\GameController.cs" />
      <Compile Include="Assets\Script\Panel.cs" />
      <Compile Include="Assets\Script\Pointer.cs" />
+     <Compile Include="Assets\Script\PowerGauge.cs" />
      <Compile Include="Assets\Script\ResultPage.cs" />
      <Compile Include="Assets\Script\TopPage.cs" />
   </ItemGroup>

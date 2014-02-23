@@ -143,6 +143,21 @@ public class GameController : MonoBehaviour {
                 Pointer pointer = pointer_obj.GetComponent<Pointer>();
                 pointer.change_position(hit.point);
             }
+            else if (hit.collider.gameObject.tag=="r_button") {
+                DrawLine.ball_direction = new Vector3(
+                    DrawLine.ball_direction.x + 0.1f,
+                    DrawLine.ball_direction.y,
+                    DrawLine.ball_direction.z
+                );
+                //Debug.Log(DrawLine.ball_direction);
+            }
+            else if (hit.collider.gameObject.tag=="l_button") {
+                DrawLine.ball_direction = new Vector3(
+                    DrawLine.ball_direction.x - 0.1f,
+                    DrawLine.ball_direction.y,
+                    DrawLine.ball_direction.z
+                );
+            }
             //それ以外に衝突した場合(方向調整)
             else {
                 if (hit_point.z > ball_start_position.z + 2) {
@@ -194,10 +209,10 @@ public class GameController : MonoBehaviour {
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect3,power);
         //Powerボタンの設置
-        if (GUI.RepeatButton (new Rect (10, 950, 300, 100), "Charge and Go!") && game_status == 0 && !kick_button_touched) {
+        if (GUI.RepeatButton (new Rect (10, 990, 400, 130), "Charge & Shoot!!") && game_status == 0 && !kick_button_touched) {
             Ball.power = 0;
             kick_button_touched = true;
-            Debug.Log(kick_button_touched);
+            //Debug.Log(kick_button_touched);
         }
     }
 }
