@@ -44,15 +44,24 @@ public class GameController : MonoBehaviour {
         kick_button_touched = false;
         panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
         //実際にpanelをinitiate
+        GameObject tmp = GameObject.Instantiate(this.PanelPrefab,
+            new Vector3(
+                (float)0.27f,
+                (float)0.93f,
+                (float)11.0f
+            ),
+            Quaternion.identity
+        ) as GameObject;
+        panels[0,0] = tmp.GetComponent<Panel>();
         for (int i = 0; i < Config.panel_width_num; i++) {
-            for (int j = 0; j < Config.panel_height_num[Config.stage_id];j++) {
+            for (int j = 1; j < Config.panel_height_num[Config.stage_id];j++) {
                 GameObject temp = GameObject.Instantiate(this.PanelPrefab,
-                        new Vector3(
-                                (float)(-5.2f + 5.25f * i),
-                                (float)(1.25f + 2.75f * j),
-                                (float)12.5f
-                        ),
-                        Quaternion.identity
+                    new Vector3(
+                        (float)(-6.18f + 4.5f * i),
+                        (float)(0.93f + 2.0f * j),
+                        (float)11.0f
+                    ),
+                    Quaternion.identity
                 ) as GameObject;
                 panels[i,j] = temp.GetComponent<Panel>();
             }
@@ -96,8 +105,11 @@ public class GameController : MonoBehaviour {
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
             bool ok = true;
+            if (!panels[0,0].clear_flag) {
+                ok = false;
+            }
             for(int i=0;i<Config.panel_width_num;i++) {
-               for(int j = 0;j < Config.panel_height_num[Config.stage_id];j++) {
+               for(int j = 1;j < Config.panel_height_num[Config.stage_id];j++) {
                     if (!panels[i,j].clear_flag) {
                         ok = false;
                         break;
@@ -111,8 +123,9 @@ public class GameController : MonoBehaviour {
                 Application.LoadLevel("ResultPage");
             } else  {
                 game_status = 0;
+                panels[0,0].setDefault();
                 for (int i = 0;i<Config.panel_width_num;i++){
-                    for (int j=0;j<Config.panel_height_num[Config.stage_id];j++) {
+                    for (int j=1;j<Config.panel_height_num[Config.stage_id];j++) {
                         panels[i,j].setDefault();
                     }
                 }
@@ -179,8 +192,15 @@ public class GameController : MonoBehaviour {
         index++;
         int count = 0;
         int ok = 0;
+        if (!panels[0,0].clear_flag) {
+            count++;
+        }
+        if (count == index) {
+            panels[0,0].make_target(2);
+            return;
+        }
         for (int i = 0;i<Config.panel_width_num;i++) {
-            for (int j = 0;j<Config.panel_height_num[Config.stage_id];j++) {
+            for (int j = 1;j<Config.panel_height_num[Config.stage_id];j++) {
                 if (!panels[i,j].clear_flag) {
                     count ++;
                 }
