@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Panel : MonoBehaviour {
-    public static double judge_point_z = 14.0f;
+    public static double judge_point_z = 12.0f;
     public bool clear_flag = false;
     public int point = 1000;
 	// Use this for initialization
