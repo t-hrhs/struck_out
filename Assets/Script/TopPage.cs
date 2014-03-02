@@ -32,6 +32,24 @@ public class TopPage : MonoBehaviour {
             Application.LoadLevel("GameScene2");
             //Application.LoadLevel("explain_stage_1");
         }
+        else if (GUI.Button(new Rect(395, 150, 180, 150),"3rd STG")) {
+            Config.stage_id = 2;
+            //Go to the 3rd STG
+            Application.LoadLevel("GameScene3");
+            //Application.LoadLevel("explain_stage_1");
+        }
+        else if (GUI.Button(new Rect(25, 305, 180, 150),"4th STG")) {
+            Config.stage_id = 3;
+            //Go to the 4th STG
+            Application.LoadLevel("GameScene4");
+            //Application.LoadLevel("explain_stage_1");
+        }
+        else if (GUI.Button(new Rect(210, 305, 180, 150),"5th STG")) {
+            Config.stage_id = 4;
+            //Go to the 5th STG
+            Application.LoadLevel("GameScene5");
+            //Application.LoadLevel("explain_stage_1");
+        }
     }
 
 }

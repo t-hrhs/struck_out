@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour {
     public static bool is_cleared = true;
     //ボタンが押されたかを保持する
     public static bool kick_button_touched = false;
+    public static int gauge_status;
     //ホイッスル
     AudioSource audioSource;
 	// Use this for initialization
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour {
         seed = Environment.TickCount;
         rnd = new System.Random(seed);
         audioSource = this.GetComponent<AudioSource>();
+        gauge_status = 1;
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
@@ -57,7 +59,7 @@ public class GameController : MonoBehaviour {
             for (int j = 1; j < Config.panel_height_num[Config.stage_id];j++) {
                 GameObject temp = GameObject.Instantiate(this.PanelPrefab,
                     new Vector3(
-                        (float)(-6.18f + 4.5f * i),
+                        (float)(-6.15f + 4.5f * i),
                         (float)(0.93f + 2.0f * j),
                         (float)11.0f
                     ),
@@ -84,10 +86,15 @@ public class GameController : MonoBehaviour {
         }
         else if (Input.GetMouseButton(0) && kick_button_touched) {
             //Debug.Log(Ball.power);
-            if (Ball.power >= 100) {
-                Ball.power = 0;
+            if (gauge_status == 1) {
+                Ball.power += 4.0f;
             } else {
-                Ball.power+= 2.0f;
+                Ball.power -=4.0f;
+            }
+            if (Ball.power >= 100) {
+                gauge_status = 2;
+            } else if (Ball.power <= 0){
+                gauge_status = 1;
             }
         }
 	    //フリック開始判定
