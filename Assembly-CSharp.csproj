@@ -50,6 +50,7 @@
      <Compile Include="Assets\Script\Config.cs" />
      <Compile Include="Assets\Script\DrawLine.cs" />
      <Compile Include="Assets\Script\GameController.cs" />
+     <Compile Include="Assets\Script\Obstacle.cs" />
      <Compile Include="Assets\Script\Panel.cs" />
      <Compile Include="Assets\Script\Pointer.cs" />
      <Compile Include="Assets\Script\PowerGauge.cs" />

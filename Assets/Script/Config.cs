@@ -6,11 +6,26 @@ public static class Config {
     //stage_number-1 because of array index
     public static int stage_id = 0;
     public static int panel_width_num = 4;
-    public static int[] panel_height_num = {3,3};
+    public static int[] panel_height_num = {3,3,3,3,3};
     //panel_status
     //0 : normal
     //1以上 : 特殊パネル
     public static int[,,] panel_status = {
+        {
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+        },
+        {
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+        },
+        {
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+        },
         {
             {0,0,0,0},
             {0,0,0,0},
