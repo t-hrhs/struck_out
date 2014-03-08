@@ -6,6 +6,9 @@ public class Ball : MonoBehaviour {
     public static Vector3 ball_standard_position = new Vector3(0.26f,0.25f,-14.3f);
     public static float power = 0;
     AudioSource audioSource;
+    public AudioClip normal_sound;
+    public AudioClip target_sound;
+    public AudioClip shout_sound;
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
@@ -19,9 +22,9 @@ public class Ball : MonoBehaviour {
 	void Update () {
         if (
                 (this.transform.position.z > 13.6f && this.rigidbody.velocity.magnitude < 1.0 ||
-                 this.transform.position.x > 8 ||
+                 this.transform.position.x > 13 ||
                  this.transform.position.x < -8 ||
-                 this.rigidbody.velocity.magnitude < 0.05f ||
+                 this.rigidbody.velocity.magnitude < 0.1f ||
                  this.rigidbody.velocity.z < 0) && 
                 GameController.game_status == 1)  {
             this.rigidbody.angularVelocity = Vector3.zero;
@@ -48,6 +51,8 @@ public class Ball : MonoBehaviour {
         //power = 24;
         temp = temp.normalized * power * 0.36f;
         this.rigidbody.velocity = temp;
+        audioSource.clip = shout_sound;
+        audioSource.Play();
     }
 
     void FixedUpdate() {
@@ -86,7 +91,12 @@ public class Ball : MonoBehaviour {
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Panel") {
             Panel panel = collision.gameObject.GetComponent<Panel>();
-            if(!panel.clear_flag) {
+            if (!panel.clear_flag && panel.point > 1000 ) {
+                audioSource.clip = target_sound;
+                audioSource.Play();
+            }
+            else if(!panel.clear_flag) {
+                audioSource.clip = normal_sound;
                 audioSource.Play();
             }
         }
