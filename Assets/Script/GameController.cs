@@ -29,6 +29,11 @@ public class GameController : MonoBehaviour {
     //ボタンが押されたかを保持する
     public static bool kick_button_touched = false;
     public static int gauge_status;
+    //ボールを蹴るごとににぬいた枚数
+    public static int panel_num_per_action = 0;
+    //ボールを蹴るごとにに獲得したbaseの点数
+    public static int score_per_action = 0;
+    public AudioClip success;
     //ホイッスル
     AudioSource audioSource;
 	// Use this for initialization
@@ -55,8 +60,10 @@ public class GameController : MonoBehaviour {
             Quaternion.identity
         ) as GameObject;
         panels[0,0] = tmp.GetComponent<Panel>();
+        panels[0,0].set_texture(8);
+        int panel_index = 0;
         for (int i = 0; i < Config.panel_width_num; i++) {
-            for (int j = 1; j < Config.panel_height_num[Config.stage_id];j++) {
+            for (int j = Config.panel_height_num[Config.stage_id]-1; j > 0;j--) {
                 GameObject temp = GameObject.Instantiate(this.PanelPrefab,
                     new Vector3(
                         (float)(-6.15f + 4.5f * i),
@@ -66,6 +73,7 @@ public class GameController : MonoBehaviour {
                     Quaternion.identity
                 ) as GameObject;
                 panels[i,j] = temp.GetComponent<Panel>();
+                panels[i,j].set_texture(Config.panel_width_num * (Config.panel_height_num[Config.stage_id] - j - 1) + i);
             }
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
@@ -111,6 +119,11 @@ public class GameController : MonoBehaviour {
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
+            //パネルを1枚でも当てられた場合は歓声を流す
+            if (panel_num_per_action > 0) {
+                audioSource.clip = success;
+                audioSource.Play();
+            }
             bool ok = true;
             if (!panels[0,0].clear_flag) {
                 ok = false;
@@ -130,6 +143,7 @@ public class GameController : MonoBehaviour {
                 Application.LoadLevel("ResultPage");
             } else  {
                 game_status = 0;
+                panel_num_per_action = 0;
                 panels[0,0].setDefault();
                 for (int i = 0;i<Config.panel_width_num;i++){
                     for (int j=1;j<Config.panel_height_num[Config.stage_id];j++) {

@@ -92,10 +92,12 @@ public class Ball : MonoBehaviour {
         if (collision.gameObject.tag == "Panel") {
             Panel panel = collision.gameObject.GetComponent<Panel>();
             if (!panel.clear_flag && panel.point > 1000 ) {
+                GameController.panel_num_per_action++;
                 audioSource.clip = target_sound;
                 audioSource.Play();
             }
             else if(!panel.clear_flag) {
+                GameController.panel_num_per_action++;
                 audioSource.clip = normal_sound;
                 audioSource.Play();
             }
