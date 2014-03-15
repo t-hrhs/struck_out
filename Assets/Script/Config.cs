@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public static class Config {
+    public static int s_width = Screen.width;
+    public static int s_height = Screen.height;
     //複数ステージ作る場合の考慮
     //stage_number-1 because of array index
     public static int stage_id = 0;

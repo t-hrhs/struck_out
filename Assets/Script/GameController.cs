@@ -4,6 +4,8 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
     public GUISkin style;
+    public GUIStyle style_for_status;
+    public GUIStyle style_for_button;
     //TODO : enumにしてわかりやすい変数の持ち方にする
     //GameStatus
     //user_touchable : 0
@@ -240,17 +242,19 @@ public class GameController : MonoBehaviour {
     //スコア + ボール所持数の表示
     void OnGUI () {
         GUI.skin = style;
-        Rect rect = new Rect(10,10,600,60);
+        style_for_status.fontSize = (int)(36 * Config.s_height/1080);
+        style_for_button.fontSize = (int)(40 * Config.s_height/1080);
+        Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string score = "スコア : " + total_score.ToString() + "点";
-        GUI.Label(rect,score);
-        Rect rect2 = new Rect(10,60,600,60);
+        GUI.Label(rect,score, style_for_status);
+        Rect rect2 = new Rect(10,(float)Config.s_height*0.06f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string ball_num = "残りボール数 : " + total_ball_num.ToString() + "個";
-        GUI.Label(rect2,ball_num);
-        Rect rect3 = new Rect(10,890,600,60);
+        GUI.Label(rect2,ball_num,style_for_status);
+        Rect rect3 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
-        GUI.Label(rect3,power);
+        GUI.Label(rect3,power,style_for_status);
         //Powerボタンの設置
-        if (GUI.RepeatButton (new Rect (10, 990, 400, 130), "Charge & Shoot!!") && game_status == 0 && !kick_button_touched) {
+        if (GUI.RepeatButton (new Rect (10, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.12f), "Charge & Shoot!!",style_for_button) && game_status == 0 && !kick_button_touched) {
             Ball.power = 0;
             kick_button_touched = true;
             //Debug.Log(kick_button_touched);
