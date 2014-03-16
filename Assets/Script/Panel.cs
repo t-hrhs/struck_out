@@ -18,7 +18,8 @@ public class Panel : MonoBehaviour {
             this.rigidbody.constraints = RigidbodyConstraints.None;
             //this.active = false;
             if (!this.clear_flag) {
-                GameController.total_score += point;
+                //NOTE : ここでは足さず、連続ボーナス等をまとめて
+                //GameController.total_score += point;
                 GameController.panel_num--;
             }
             this.clear_flag = true;

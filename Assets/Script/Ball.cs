@@ -21,7 +21,7 @@ public class Ball : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (
-                (this.transform.position.z > 13.6f && this.rigidbody.velocity.magnitude < 1.0 ||
+                (this.transform.position.z > 12.0f && this.rigidbody.velocity.magnitude < 2.0 ||
                  this.transform.position.x > 13 ||
                  this.transform.position.x < -8 ||
                  this.rigidbody.velocity.magnitude < 0.1f ||
@@ -62,42 +62,19 @@ public class Ball : MonoBehaviour {
         }
     }
 
-    /*int time_ev(int milli_sec) {
-        if (milli_sec < 200) {
-            return 6;
-        } else if (milli_sec < 400) {
-            return 5;
-        } else if (milli_sec < 600) {
-            return 4;
-        } else if (milli_sec < 800) {
-            return 3;
-        } else {
-            return 2;
-        }
-    }
-
-    int dis_ev(float distance) {
-        float ball_panel_distance = GameController.ball_panel_distance;
-        if (ball_panel_distance <= distance) {
-            return 6;
-        } else if(ball_panel_distance * 0.5 <= distance) {
-            return 5;
-        } else {
-            return 4;
-        }
-    }*/
-
     //パネルに衝突した際に効果音を導入する
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Panel") {
             Panel panel = collision.gameObject.GetComponent<Panel>();
             if (!panel.clear_flag && panel.point > 1000 ) {
                 GameController.panel_num_per_action++;
+                GameController.score_per_action+=panel.point;
                 audioSource.clip = target_sound;
                 audioSource.Play();
             }
             else if(!panel.clear_flag) {
                 GameController.panel_num_per_action++;
+                GameController.score_per_action+=panel.point;
                 audioSource.clip = normal_sound;
                 audioSource.Play();
             }
