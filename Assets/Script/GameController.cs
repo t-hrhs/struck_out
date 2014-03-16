@@ -49,6 +49,8 @@ public class GameController : MonoBehaviour {
         total_score = 0;
         total_ball_num = 15;
         panel_num = 9;
+        panel_num_per_action = 0;
+        score_per_action = 0;
         is_cleared = true;
         kick_button_touched = false;
         panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
@@ -97,11 +99,11 @@ public class GameController : MonoBehaviour {
         else if (Input.GetMouseButton(0) && kick_button_touched) {
             //Debug.Log(Ball.power);
             if (gauge_status == 1) {
-                Ball.power += 4.0f;
+                Ball.power += 3.0f;
             } else {
-                Ball.power -=4.0f;
+                Ball.power -=3.0f;
             }
-            if (Ball.power >= 100) {
+            if (Ball.power >= 99) {
                 gauge_status = 2;
             } else if (Ball.power <= 0){
                 gauge_status = 1;
@@ -122,9 +124,14 @@ public class GameController : MonoBehaviour {
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
             //パネルを1枚でも当てられた場合は歓声を流す
+            //さらにここで計算も行う
             if (panel_num_per_action > 0) {
                 audioSource.clip = success;
                 audioSource.Play();
+                total_score += score_per_action * panel_num_per_action;
+                //スコアを計算したので、actionあたりの抜いた枚数や点数をreset
+                score_per_action = 0;
+                panel_num_per_action = 0;
             }
             bool ok = true;
             if (!panels[0,0].clear_flag) {
@@ -139,6 +146,7 @@ public class GameController : MonoBehaviour {
                }
             }
             if (ok) {
+                PlayerPrefs.SetInt("user_stage",(Config.stage_id + 1));
                 Application.LoadLevel("ResultPage");
             } else if (total_ball_num == 0) {
                 is_cleared = false;
