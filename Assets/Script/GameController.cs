@@ -146,7 +146,13 @@ public class GameController : MonoBehaviour {
                }
             }
             if (ok) {
-                PlayerPrefs.SetInt("user_stage",(Config.stage_id + 1));
+                int tmp = 0;
+                if (PlayerPrefs.HasKey("user_stage")) {
+                    tmp = PlayerPrefs.GetInt("user_stage");
+                }
+                if (tmp < (Config.stage_id + 1)) {
+                    PlayerPrefs.SetInt("user_stage",(Config.stage_id + 1));
+                }
                 Application.LoadLevel("ResultPage");
             } else if (total_ball_num == 0) {
                 is_cleared = false;
