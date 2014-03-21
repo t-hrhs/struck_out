@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour {
     public static Vector3 ball_start_position;
     //ボールとパネルのz座標の距離
     public static float ball_panel_distance;
-    public static float max_height = 20.0f;
+    public static float max_height = 30.0f;
     public static DateTime start_time;
     public static DateTime end_time;
     public Panel[,] panels;
