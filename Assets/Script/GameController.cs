@@ -187,6 +187,8 @@ public class GameController : MonoBehaviour {
             //回転・高さの調節をしたい場合
             if (hit.collider.gameObject.tag=="pointer" ||
                     hit.collider.gameObject.tag=="ball_cylinder") {
+                Debug.Log(hit.collider.gameObject.tag);
+                Debug.Log(hit.point);
                 //pointerオブジェクトを探索する
                 GameObject pointer_obj = GameObject.Find("Pointer");
                 //pointerをタッチされた座標に更新する
