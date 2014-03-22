@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class Panel : MonoBehaviour {
-    public static double judge_point_z = 14.0f;
+    public static double judge_point_z = 12.0f;
     public bool clear_flag = false;
     public int point = 1000;
+    public Texture2D[] textures = new Texture2D[9];
 	// Use this for initialization
 	void Start () {
 	
@@ -17,7 +18,8 @@ public class Panel : MonoBehaviour {
             this.rigidbody.constraints = RigidbodyConstraints.None;
             //this.active = false;
             if (!this.clear_flag) {
-                GameController.total_score += point;
+                //NOTE : ここでは足さず、連続ボーナス等をまとめて
+                //GameController.total_score += point;
                 GameController.panel_num--;
             }
             this.clear_flag = true;
@@ -34,5 +36,9 @@ public class Panel : MonoBehaviour {
     public void setDefault() {
         this.renderer.material.color = Color.white;
         this.point = 1000;
+    }
+    public void set_texture(int index) {
+        this.transform.Rotate(0, 180, 0);
+        this.renderer.material.mainTexture=textures[index];
     }
 }
