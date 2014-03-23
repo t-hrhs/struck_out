@@ -38,12 +38,16 @@ public class GameController : MonoBehaviour {
     public AudioClip success;
     //ホイッスル
     AudioSource audioSource;
+    public static bool does_target_hit = false;
+    public int target_unix_time = 0;
+    public static bool animation = false;
 	// Use this for initialization
 	void Start () {
         seed = Environment.TickCount;
         rnd = new System.Random(seed);
         audioSource = this.GetComponent<AudioSource>();
         gauge_status = 1;
+        does_target_hit = false;
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
@@ -53,6 +57,7 @@ public class GameController : MonoBehaviour {
         score_per_action = 0;
         is_cleared = true;
         kick_button_touched = false;
+        animation = false;
         panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
         //実際にpanelをinitiate
         GameObject tmp = GameObject.Instantiate(this.PanelPrefab,
@@ -123,6 +128,23 @@ public class GameController : MonoBehaviour {
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
+            if (does_target_hit) {
+                DateTime targetTime = DateTime.Now;
+               if (target_unix_time == 0) {
+                   //animationの計測開始
+                   target_unix_time = GetUnixTime(targetTime);
+                   animation = true;
+               }
+               else if (GetUnixTime(targetTime) - target_unix_time < 3){
+                   Debug.Log("test");
+                   //3秒以内なら特に何もしない
+               }
+               else {
+                    target_unix_time = 0;
+                    animation = false;
+                    does_target_hit = false;
+               }
+            } else {
             //パネルを1枚でも当てられた場合は歓声を流す
             //さらにここで計算も行う
             if (panel_num_per_action > 0) {
@@ -168,6 +190,7 @@ public class GameController : MonoBehaviour {
                 }
                 panel_choice();
             }
+        }
         }
 	}
 
@@ -273,5 +296,11 @@ public class GameController : MonoBehaviour {
             kick_button_touched = true;
             //Debug.Log(kick_button_touched);
         }
+    }
+    private static DateTime UNIX_EPOCH = new DateTime(1970,1,1,0,0,0,0);
+    public static int GetUnixTime(DateTime targetTime){
+        targetTime = targetTime.ToUniversalTime();
+        TimeSpan elapsedTime = targetTime - UNIX_EPOCH;
+        return (int)elapsedTime.TotalSeconds;
     }
 }

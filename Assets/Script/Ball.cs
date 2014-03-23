@@ -67,6 +67,7 @@ public class Ball : MonoBehaviour {
         if (collision.gameObject.tag == "Panel") {
             Panel panel = collision.gameObject.GetComponent<Panel>();
             if (!panel.clear_flag && panel.point > 1000 ) {
+                GameController.does_target_hit = true;
                 GameController.panel_num_per_action++;
                 GameController.score_per_action+=panel.point;
                 audioSource.clip = target_sound;
