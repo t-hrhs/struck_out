@@ -38,12 +38,15 @@ public class GameController : MonoBehaviour {
     public AudioClip success;
     //ホイッスル
     AudioSource audioSource;
+    public static bool does_target_hit = false;
+    public int target_unix_time = 0;
 	// Use this for initialization
 	void Start () {
         seed = Environment.TickCount;
         rnd = new System.Random(seed);
         audioSource = this.GetComponent<AudioSource>();
         gauge_status = 1;
+        does_target_hit = 0;
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
@@ -123,6 +126,20 @@ public class GameController : MonoBehaviour {
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
+            if (does_target_hit) {
+                DateTime targetTime = DateTime.Now;
+               if (target_unix_time == 0) {
+                   //animationの計測開始
+                   target_unix_time = GetUnixTime(targetTime);
+               }
+               else if (GetUnixTime(targetTime) - target_unix_time < 3){
+                   //3秒以内なら特に何もしない
+               }
+               else {
+                    target_unix_time = 0;
+                    does_target_hit = false;
+               }
+            } else {
             //パネルを1枚でも当てられた場合は歓声を流す
             //さらにここで計算も行う
             if (panel_num_per_action > 0) {
@@ -168,6 +185,7 @@ public class GameController : MonoBehaviour {
                 }
                 panel_choice();
             }
+        }
         }
 	}
 
