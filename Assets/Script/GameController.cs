@@ -17,7 +17,6 @@ public class GameController : MonoBehaviour {
     public static Vector3 ball_start_position;
     //ボールとパネルのz座標の距離
     public static float ball_panel_distance;
-    public static float max_height = 25.0f;
     public static DateTime start_time;
     public static DateTime end_time;
     public Panel[,] panels;
@@ -104,9 +103,9 @@ public class GameController : MonoBehaviour {
         else if (Input.GetMouseButton(0) && kick_button_touched) {
             //Debug.Log(Ball.power);
             if (gauge_status == 1) {
-                Ball.power += 3.0f;
+                Ball.power += 2.0f;
             } else {
-                Ball.power -=3.0f;
+                Ball.power -=2.0f;
             }
             if (Ball.power >= 99) {
                 gauge_status = 2;
@@ -136,7 +135,6 @@ public class GameController : MonoBehaviour {
                    animation = true;
                }
                else if (GetUnixTime(targetTime) - target_unix_time < 3){
-                   Debug.Log("test");
                    //3秒以内なら特に何もしない
                }
                else {

@@ -4,14 +4,15 @@ using System.Collections;
 public class Pointer : MonoBehaviour {
     public static Vector3 current_position;
     public static Vector3 center_position;
+    public static int current_index = 6;
     public static float cyclinder_radius;
     public static float pointer_radius;
+    public static float[] heights = {0.0f,0.0f,0.0f,0.0f,11.0f,11.0f,11.0f,11.0f,11.0f,13.0f,13.0f,13.0f,15.0f};
     public static float ball_height;
     public static Vector3[] positions;
 	// Use this for initialization
 	void Start () {
         center_position = GameObject.Find("Ball_Indicator").transform.position;
-        current_position = center_position;
         cyclinder_radius = GameObject.Find("Ball_Indicator").transform.localScale.x/2;
         pointer_radius = this.transform.localScale.x/2;
         positions = new Vector3[13];
@@ -81,6 +82,8 @@ public class Pointer : MonoBehaviour {
             center_position.y - cyclinder_radius + pointer_radius,
             temp
         );
+        current_position = positions[6];
+        ball_height = heights[current_index];
 	}
 	
 	// Update is called once per frame
@@ -102,8 +105,9 @@ public class Pointer : MonoBehaviour {
             }
         }
         this.transform.position = positions[min_index];
+        current_index = min_index;
         current_position = positions[min_index];
-        ball_height = GameController.max_height * (center_position.y + cyclinder_radius - current_position.y) /cyclinder_radius * 0.5f;
+        ball_height = heights[current_index];
     }
     public static double ac_prop() {
         return (double) -1 * (current_position.x-center_position.x)/cyclinder_radius;

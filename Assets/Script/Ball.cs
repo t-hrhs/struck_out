@@ -9,6 +9,7 @@ public class Ball : MonoBehaviour {
     public AudioClip normal_sound;
     public AudioClip target_sound;
     public AudioClip shout_sound;
+    public static int base_power = 50;
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.3f;
     public static float ac_x = 0.3f;
@@ -49,7 +50,8 @@ public class Ball : MonoBehaviour {
         Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
         temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
         //power = 24;
-        temp = temp.normalized * power * 0.36f;
+        temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
+        //temp = temp.normalized * power * 0.36f;
         this.rigidbody.velocity = temp;
         audioSource.clip = shout_sound;
         audioSource.Play();
