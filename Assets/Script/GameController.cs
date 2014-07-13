@@ -3,26 +3,38 @@ using System;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+    // GUIボタン等の設定を保持するObject
     public GUISkin style;
     public GUIStyle style_for_status;
     public GUIStyle style_for_button;
-    //TODO : enumにしてわかりやすい変数の持ち方にする
-    //GameStatus
-    //user_touchable : 0
-    //ball_moving : 1
-    //clear_check : 2
+
+    /* ---------------------
+    GameStatus
+     - user_touchable : 0
+     - ball_moving : 1
+     - clear_check : 2
+    ----------------------*/
     public static int game_status = 0;
-    public GameObject PanelPrefab;
+
     //ボールの定位置
     public static Vector3 ball_start_position;
-    //ボールとパネルのz座標の距離
-    public static float ball_panel_distance;
+
+    //ユーザのフリック情報
     public static DateTime start_time;
     public static DateTime end_time;
-    public Panel[,] panels;
-    public static int panel_num = 9;
+
+    /* -------------------
+    パネルに関する情報
+     - panels : 実際のpanelインスタンスの集合
+     - total_panel_num : ステージに出現するパネルの枚数
+     - panel_remaining_num : ステージ上に残っているパネルの枚数
+     - 
+    --------------------- */
+    public Panel[] panels;
+    public static int total_panel_num;
+    public static int panel_remaining_num;
     public static int total_score = 0;
-    public static int total_ball_num = 15;
+    public static int total_ball_num;
     //乱数のseed
     public static int seed;
     System.Random rnd;
@@ -50,42 +62,22 @@ public class GameController : MonoBehaviour {
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
-        total_ball_num = 15;
-        panel_num = 9;
+        total_ball_num = Config.ball_num[Config.stage_id];
         panel_num_per_action = 0;
         score_per_action = 0;
         is_cleared = true;
         kick_button_touched = false;
         animation = false;
-        panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
-        //実際にpanelをinitiate
-        GameObject tmp = GameObject.Instantiate(this.PanelPrefab,
-            new Vector3(
-                (float)0.27f,
-                (float)0.93f,
-                (float)11.0f
-            ),
-            Quaternion.identity
-        ) as GameObject;
-        panels[0,0] = tmp.GetComponent<Panel>();
-        panels[0,0].set_texture(8);
-        int panel_index = 0;
-        for (int i = 0; i < Config.panel_width_num; i++) {
-            for (int j = Config.panel_height_num[Config.stage_id]-1; j > 0;j--) {
-                GameObject temp = GameObject.Instantiate(this.PanelPrefab,
-                    new Vector3(
-                        (float)(-6.15f + 4.5f * i),
-                        (float)(0.93f + 2.0f * j),
-                        (float)11.0f
-                    ),
-                    Quaternion.identity
-                ) as GameObject;
-                panels[i,j] = temp.GetComponent<Panel>();
-                panels[i,j].set_texture(Config.panel_width_num * (Config.panel_height_num[Config.stage_id] - j - 1) + i);
-            }
+
+        //panel情報の獲得
+        total_panel_num = Config.panel_config[Config.stage_id].Length;
+        panel_remaining_num = Config.panel_config[Config.stage_id].Length;
+        panels = new Panel[total_panel_num];
+        for (int i = 0; i < total_panel_num; i++) {
+            GameObject tmp = PanelManager.make_panel_object(0,i);
+            panels[i] = tmp.GetComponent<Panel>();
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
-        ball_panel_distance = 12.5f - ball_start_position.z;
         panel_choice();
         audioSource.Play();
 	}
@@ -154,15 +146,10 @@ public class GameController : MonoBehaviour {
                 panel_num_per_action = 0;
             }
             bool ok = true;
-            if (!panels[0,0].clear_flag) {
-                ok = false;
-            }
-            for(int i=0;i<Config.panel_width_num;i++) {
-               for(int j = 1;j < Config.panel_height_num[Config.stage_id];j++) {
-                    if (!panels[i,j].clear_flag) {
-                        ok = false;
-                        break;
-                    }
+            for(int i=0;i<total_panel_num;i++) {
+               if (!panels[i].clear_flag) {
+                    ok = false;
+                    break;
                }
             }
             if (ok) {
@@ -180,11 +167,8 @@ public class GameController : MonoBehaviour {
             } else  {
                 game_status = 0;
                 panel_num_per_action = 0;
-                panels[0,0].setDefault();
-                for (int i = 0;i<Config.panel_width_num;i++){
-                    for (int j=1;j<Config.panel_height_num[Config.stage_id];j++) {
-                        panels[i,j].setDefault();
-                    }
+                for (int i = 0;i<total_panel_num;i++){
+                    panels[i].setDefault();
                 }
                 panel_choice();
             }
@@ -234,7 +218,7 @@ public class GameController : MonoBehaviour {
                 if (hit_point.z > ball_start_position.z + 2) {
                     Vector3 temp = new Vector3(hit_point.x,ball_start_position.y,hit_point.z);
                     temp = temp - ball_start_position;
-                    temp = temp * ball_panel_distance / temp.z;
+                    temp = temp * (12.5f - ball_start_position.z) / temp.z;
                     DrawLine.ball_direction = ball_start_position + temp;
                 }
             }
@@ -246,29 +230,16 @@ public class GameController : MonoBehaviour {
 
     //ランダムにスコア2倍のパネルを選択する
     void panel_choice() {
-        int index = rnd.Next(panel_num);
+        int index = rnd.Next(panel_remaining_num);
         index++;
         int count = 0;
         int ok = 0;
-        if (!panels[0,0].clear_flag) {
-            count++;
-        }
-        if (count == index) {
-            panels[0,0].make_target(2);
-            return;
-        }
-        for (int i = 0;i<Config.panel_width_num;i++) {
-            for (int j = 1;j<Config.panel_height_num[Config.stage_id];j++) {
-                if (!panels[i,j].clear_flag) {
-                    count ++;
-                }
-                if (count == index) {
-                    panels[i,j].make_target(2);
-                    ok = 1;
-                    break;
-                }
+        for (int i = 0;i<total_panel_num;i++) {
+            if (!panels[i].clear_flag) {
+                count ++;
             }
-            if (ok==1) {
+            if (count == index) {
+                panels[i].make_target(2);
                 break;
             }
         }

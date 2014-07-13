@@ -20,7 +20,7 @@ public class Panel : MonoBehaviour {
             if (!this.clear_flag) {
                 //NOTE : ここでは足さず、連続ボーナス等をまとめて
                 //GameController.total_score += point;
-                GameController.panel_num--;
+                GameController.panel_remaining_num--;
             }
             this.clear_flag = true;
             //colliderの判定をoffにする
