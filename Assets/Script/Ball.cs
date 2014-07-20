@@ -10,12 +10,14 @@ public class Ball : MonoBehaviour {
     public AudioClip target_sound;
     public AudioClip shout_sound;
     public static int base_power = 50;
+    public static float ac_coefficient;
     //Maxの曲がり具合が0.3くらいだと思う。
-    public static float ac_max = 0.3f;
-    public static float ac_x = 0.3f;
+    public static float ac_max = 0.25f;
+    public static float ac_x = 0.25f;
 	// Use this for initialization
 	void Start () {
         audioSource = this.GetComponent<AudioSource>();
+        ac_coefficient = 0;
 	    power = 0;
 	}
 	
@@ -45,16 +47,65 @@ public class Ball : MonoBehaviour {
         temp = temp.normalized * time_evaluation * dis_evaluation;
         this.rigidbody.velocity= temp;
     }*/
-    public void shoot() {
-        ac_x = ac_max * (float)Pointer.ac_prop();
-        Vector3 temp = DrawLine.ball_direction - GameController.ball_start_position;
-        temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
-        //power = 24;
+    public void shoot(
+        Vector3 flick_start_position,
+        Vector3 flick_end_position,
+        Vector3[] flick_positions,
+        int flick_update_num,
+        float ms
+    ) {
+        //横向きの加速度の決定
+        Vector3 turning_point = _calculate_turning_point(flick_start_position, flick_end_position, flick_positions, flick_update_num);
+        ac_x = ac_max * ac_coefficient;
+
+        //ac_x = ac_max * (float)Pointer.ac_prop();
+        //ac_x = ac_max;
+        //初速のベクトルの決定
+        power = 100 * (1000 - ms)/1000;
+        if (power < 24) {
+            power = 24;
+        }
+        Vector3 temp = turning_point-flick_start_position;
+        float rate = GameController.ball_panel_distance / temp.z;
+        temp = new Vector3(temp.x * rate, 20.0f * power/100 ,temp.z * rate);
         temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
         //temp = temp.normalized * power * 0.36f;
         this.rigidbody.velocity = temp;
         audioSource.clip = shout_sound;
         audioSource.Play();
+    }
+
+    Vector3 _calculate_turning_point(Vector3 flick_start_position, Vector3 flick_end_position, Vector3[] flick_positions, int flick_num) {
+        float temp_coef = 0;
+        Vector3 answer = flick_end_position;
+        for (int i = 0; i < flick_num; i++) {
+            Vector3 line_direction = flick_end_position-flick_start_position;
+            Vector3 point_direction = flick_positions[i] -flick_start_position;
+            Debug.Log(line_direction);
+            Debug.Log(point_direction);
+            Debug.Log(Vector3.Cross(line_direction,point_direction));
+            Vector3 area_vect = Vector3.Cross(line_direction, point_direction);
+            float area = area_vect.magnitude;
+            Debug.Log(area);
+            //float area = (Vector3.Cross(line_direction, point_direction)).magnitude;
+            float height = area / line_direction.magnitude;
+            if (System.Math.Abs(temp_coef) < height) {
+                if (point_direction.x - line_direction.x > 0) {
+                    temp_coef = -height;
+                } else {
+                    temp_coef = height;
+                }
+                answer = flick_positions[i];
+            }
+            Debug.Log(temp_coef);
+        }
+        Debug.Log(temp_coef);
+        //人間の操作誤差の抹消
+        if (System.Math.Abs(temp_coef) < 10) {
+            temp_coef = 0;
+        }
+        ac_coefficient = temp_coef/10; //10は適当な係数調整
+        return answer;
     }
 
     void FixedUpdate() {
