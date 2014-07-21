@@ -12,8 +12,8 @@ public class Ball : MonoBehaviour {
     public static int base_power = 50;
     public static float ac_coefficient;
     //Maxの曲がり具合が0.3くらいだと思う。
-    public static float ac_max = 0.25f;
-    public static float ac_x = 0.25f;
+    public static float ac_max = 0.30f;
+    public static float ac_x = 0.30f;
 	// Use this for initialization
 	void Start () {
         audioSource = this.GetComponent<AudioSource>();
@@ -81,14 +81,26 @@ public class Ball : MonoBehaviour {
         for (int i = 0; i < flick_num; i++) {
             Vector3 line_direction = flick_end_position-flick_start_position;
             Vector3 point_direction = flick_positions[i] -flick_start_position;
-            Debug.Log(line_direction);
-            Debug.Log(point_direction);
-            Debug.Log(Vector3.Cross(line_direction,point_direction));
-            Vector3 area_vect = Vector3.Cross(line_direction, point_direction);
-            float area = area_vect.magnitude;
-            Debug.Log(area);
+            float internal_mult = line_direction.x * point_direction.x + line_direction.z * point_direction.z;
+            float line_abs = Mathf.Sqrt(line_direction.x * line_direction.x + line_direction.z * line_direction.z);
+            float point_abs = Mathf.Sqrt(point_direction.x * point_direction.x + point_direction.z * point_direction.z);
+            float cos = internal_mult/(line_abs * point_abs);
+            float sin = Mathf.Sqrt(1-cos*cos);
+            float height = point_abs * sin;
+            //以下、外積の方針(諸事情によりコメントアウト)
+            //Debug.Log(Vector3.Cross(line_direction,point_direction));
+            //Vector3 area_vect = Vector3.Cross(line_direction, point_direction);
+            //float area = area_vect.magnitude;
+            //Debug.Log(area);
             //float area = (Vector3.Cross(line_direction, point_direction)).magnitude;
-            float height = area / line_direction.magnitude;
+            //float height = area / line_direction.magnitude;
+            /*if (height < 10) { 
+                Debug.Log("高さ結果");
+                Debug.Log(height);
+                Debug.Log(point_direction);
+                Debug.Log(line_direction);
+                Debug.Log("==========");
+            }*/
             if (System.Math.Abs(temp_coef) < height) {
                 if (point_direction.x - line_direction.x > 0) {
                     temp_coef = -height;
@@ -97,11 +109,9 @@ public class Ball : MonoBehaviour {
                 }
                 answer = flick_positions[i];
             }
-            Debug.Log(temp_coef);
         }
-        Debug.Log(temp_coef);
         //人間の操作誤差の抹消
-        if (System.Math.Abs(temp_coef) < 10) {
+        if (System.Math.Abs(temp_coef) < 1) {
             temp_coef = 0;
         }
         ac_coefficient = temp_coef/10; //10は適当な係数調整
