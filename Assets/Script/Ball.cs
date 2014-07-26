@@ -10,14 +10,12 @@ public class Ball : MonoBehaviour {
     public AudioClip target_sound;
     public AudioClip shout_sound;
     public static int base_power = 50;
-    public static float ac_coefficient;
     //Maxの曲がり具合が0.3くらいだと思う。
-    public static float ac_max = 0.30f;
-    public static float ac_x = 0.30f;
+    public static float ac_max = 0.20f;
+    public static float ac_x = 0.20f;
 	// Use this for initialization
 	void Start () {
         audioSource = this.GetComponent<AudioSource>();
-        ac_coefficient = 0;
 	    power = 0;
 	}
 	
@@ -50,14 +48,12 @@ public class Ball : MonoBehaviour {
     public void shoot(
         Vector3 flick_start_position,
         Vector3 flick_end_position,
-        Vector3[] flick_positions,
-        int flick_update_num,
-        float ms
+        float ms //これはフリックするのにかかった時間
     ) {
-        //横向きの加速度の決定
-        Vector3 turning_point = _calculate_turning_point(flick_start_position, flick_end_position, flick_positions, flick_update_num);
+        //横向きの加速度の決定(蹴り始めた座標で決定する)
+        float ac_coefficient = _calculate_ac_coefficient(flick_start_position);
         ac_x = ac_max * ac_coefficient;
-
+        Debug.Log(ac_x);
         //ac_x = ac_max * (float)Pointer.ac_prop();
         //ac_x = ac_max;
         //初速のベクトルの決定
@@ -65,7 +61,7 @@ public class Ball : MonoBehaviour {
         if (power < 24) {
             power = 24;
         }
-        Vector3 temp = turning_point-flick_start_position;
+        Vector3 temp = flick_end_position-flick_start_position;
         float rate = GameController.ball_panel_distance / temp.z;
         temp = new Vector3(temp.x * rate, 20.0f * power/100 ,temp.z * rate);
         temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
@@ -75,47 +71,20 @@ public class Ball : MonoBehaviour {
         audioSource.Play();
     }
 
-    Vector3 _calculate_turning_point(Vector3 flick_start_position, Vector3 flick_end_position, Vector3[] flick_positions, int flick_num) {
-        float temp_coef = 0;
-        Vector3 answer = flick_end_position;
-        for (int i = 0; i < flick_num; i++) {
-            Vector3 line_direction = flick_end_position-flick_start_position;
-            Vector3 point_direction = flick_positions[i] -flick_start_position;
-            float internal_mult = line_direction.x * point_direction.x + line_direction.z * point_direction.z;
-            float line_abs = Mathf.Sqrt(line_direction.x * line_direction.x + line_direction.z * line_direction.z);
-            float point_abs = Mathf.Sqrt(point_direction.x * point_direction.x + point_direction.z * point_direction.z);
-            float cos = internal_mult/(line_abs * point_abs);
-            float sin = Mathf.Sqrt(1-cos*cos);
-            float height = point_abs * sin;
-            //以下、外積の方針(諸事情によりコメントアウト)
-            //Debug.Log(Vector3.Cross(line_direction,point_direction));
-            //Vector3 area_vect = Vector3.Cross(line_direction, point_direction);
-            //float area = area_vect.magnitude;
-            //Debug.Log(area);
-            //float area = (Vector3.Cross(line_direction, point_direction)).magnitude;
-            //float height = area / line_direction.magnitude;
-            /*if (height < 10) { 
-                Debug.Log("高さ結果");
-                Debug.Log(height);
-                Debug.Log(point_direction);
-                Debug.Log(line_direction);
-                Debug.Log("==========");
-            }*/
-            if (System.Math.Abs(temp_coef) < height) {
-                if (point_direction.x - line_direction.x > 0) {
-                    temp_coef = -height;
-                } else {
-                    temp_coef = height;
-                }
-                answer = flick_positions[i];
-            }
+    float _calculate_ac_coefficient(Vector3 flick_start_position) {
+        float judge_distance = 0.5f;
+        Vector3 jundge_position = GameController.ball_start_position;
+        Debug.Log(jundge_position);
+        Debug.Log (flick_start_position);
+        //発射位置がボールがそれほど離れていないかったらカーブをかけない
+        if (Mathf.Abs (jundge_position.x - flick_start_position.x) < judge_distance) {
+            return 0.0f;
         }
-        //人間の操作誤差の抹消
-        if (System.Math.Abs(temp_coef) < 1) {
-            temp_coef = 0;
+        if (jundge_position.x - flick_start_position.x > 0.0f) {
+            return 1.0f;
+        } else {
+            return -1.0f;
         }
-        ac_coefficient = temp_coef/10; //10は適当な係数調整
-        return answer;
     }
 
     void FixedUpdate() {

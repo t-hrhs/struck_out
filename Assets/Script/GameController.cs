@@ -26,15 +26,11 @@ public class GameController : MonoBehaviour {
      end_time : ユーザがフリックを終えた時間
      flick_start_position : ユーザがフリックを開始した3次元座標
      flick_end_position : ユーザがフリックを終了した3次元座標
-     flick_most_right_positon : ユーザがフリック期間で最右3次元
-     flick_most_left_positon : ユーザがフリック期間で最左3次元
      ---------------------*/
     public static DateTime start_time;
     public static DateTime end_time;
     public static Vector3 flick_start_position;
     public static Vector3 flick_end_position;
-    public static int flick_update_count = 0;
-    public static Vector3[] flick_positions = new Vector3[10000];
 
     /* -------------------
     パネルに関する情報
@@ -84,7 +80,6 @@ public class GameController : MonoBehaviour {
         score_per_action = 0;
         is_cleared = true;
         animation = false;
-        flick_update_count = 0;
         //panel情報の獲得
         total_panel_num = Config.panel_config[Config.stage_id].Length;
         panel_remaining_num = Config.panel_config[Config.stage_id].Length;
@@ -119,19 +114,14 @@ public class GameController : MonoBehaviour {
             ball_script.shoot(
                 flick_start_position,
                 flick_end_position,
-                flick_positions,
-                flick_update_count,
                 (float)time.TotalMilliseconds
             );
-            flick_update_count = 0;
             game_status = 1;
             total_ball_num--;
         }
         //ドラッグ中
         else if (Input.GetMouseButton(0) && game_status == 0) {
             Vector3 point = get_touch_point();
-            flick_positions[flick_update_count] = point;
-            flick_update_count++;
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
