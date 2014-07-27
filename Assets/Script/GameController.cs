@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour {
     //ボールの定位置
     public static Vector3 ball_start_position;
     public static float ball_panel_distance;
+    public static bool is_flick_start;
 
     /* ---------------------
      ユーザのフリック情報
@@ -79,6 +80,7 @@ public class GameController : MonoBehaviour {
         panel_num_per_action = 0;
         score_per_action = 0;
         is_cleared = true;
+        is_flick_start = false;
         animation = false;
         //panel情報の獲得
         total_panel_num = Config.panel_config[Config.stage_id].Length;
@@ -90,20 +92,28 @@ public class GameController : MonoBehaviour {
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
+        GameObject direct = GameObject.Find ("DirectButton");
+        direct.renderer.material.color = Color.blue;
         panel_choice();
         audioSource.Play();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    //フリック開始判定
+        //フリック開始判定及び球種調整
         if (Input.GetMouseButtonDown(0) && game_status == 0) {
-            start_time = DateTime.Now;
-            Vector3 point = get_touch_point();
-            flick_start_position = point;
+            if (_touch_curve_button ()) {
+                //trueの場合はこのスコープでは特に何もしない
+            } else {
+                start_time = DateTime.Now;
+                Vector3 point = get_touch_point ();
+                flick_start_position = point;
+                is_flick_start = true;
+            }
         }
         //フリック開始終了
-        else if (Input.GetMouseButtonUp(0) && game_status == 0) {
+        else if (is_flick_start && Input.GetMouseButtonUp(0) && game_status == 0) {
+            is_flick_start = false;
             end_time = DateTime.Now;
             TimeSpan time = end_time-start_time;
             Vector3 point = get_touch_point();
@@ -182,6 +192,52 @@ public class GameController : MonoBehaviour {
         }
 	}
 
+    /*----------------------
+    _touch_curve_button
+    curve(direct)ボタンに触れたかどうか判定し、Ball.csのcurve_typeをupdateする
+    ------------------------*/
+    bool _touch_curve_button() {
+        //マウスカーソルからのRay発射
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast (ray, out hit)) {
+            //オブジェクトに全く衝突しなかった場合
+            if (!hit.collider.gameObject) {
+                return false;
+            } else {
+                GameObject target= hit.collider.gameObject;
+                GameObject right_curve = GameObject.Find ("RightButton");
+                GameObject left_curve = GameObject.Find ("LeftButton");
+                GameObject direct = GameObject.Find ("DirectButton");
+
+                if (target == right_curve) {
+                    Ball.ball_type = 1;
+                    right_curve.renderer.material.color = Color.white;
+                    left_curve.renderer.material.color = Color.white;
+                    direct.renderer.material.color = Color.white;
+                    target.renderer.material.color = Color.blue;
+                    return true;
+                } else if (target == left_curve) {
+                    Ball.ball_type = 2;
+                    right_curve.renderer.material.color = Color.white;
+                    left_curve.renderer.material.color = Color.white;
+                    direct.renderer.material.color = Color.white;
+                    target.renderer.material.color = Color.blue;
+                    return true;
+                } else if (target == direct) {
+                    Ball.ball_type = 0;
+                    right_curve.renderer.material.color = Color.white;
+                    left_curve.renderer.material.color = Color.white;
+                    direct.renderer.material.color = Color.white;
+                    target.renderer.material.color = Color.blue;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
     /* ---------------------
     get_touch_point
     2次元座標からUnityの座標へ変換して返す

@@ -13,10 +13,18 @@ public class Ball : MonoBehaviour {
     //Maxの曲がり具合が0.3くらいだと思う。
     public static float ac_max = 0.20f;
     public static float ac_x = 0.20f;
+    /*-------------------------------
+    ball_type : 球種を保持する変数
+    0 : 直進ボール
+    1 : right_curve(ac_xをマイナスにする)
+    2 : left_curve(ac_xをプラスにする)
+     --------------------------------*/
+    public static int ball_type = 0;
 	// Use this for initialization
 	void Start () {
         audioSource = this.GetComponent<AudioSource>();
 	    power = 0;
+        ball_type = 0;
 	}
 	
 	// Update is called once per frame
@@ -77,14 +85,14 @@ public class Ball : MonoBehaviour {
         Debug.Log(jundge_position);
         Debug.Log (flick_start_position);
         //発射位置がボールがそれほど離れていないかったらカーブをかけない
-        if (Mathf.Abs (jundge_position.x - flick_start_position.x) < judge_distance) {
-            return 0.0f;
+        if (ball_type == 0) {
+            return 0;
+        } else if (ball_type == 1) {
+            return -1;
+        } else if (ball_type == 2) {
+            return 1;
         }
-        if (jundge_position.x - flick_start_position.x > 0.0f) {
-            return 1.0f;
-        } else {
-            return -1.0f;
-        }
+        return 0;
     }
 
     void FixedUpdate() {
