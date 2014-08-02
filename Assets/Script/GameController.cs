@@ -92,27 +92,28 @@ public class GameController : MonoBehaviour {
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
-        GameObject direct = GameObject.Find ("DirectButton");
-        direct.renderer.material.color = Color.blue;
+        flick_start_position = Vector3.zero;
         panel_choice();
         audioSource.Play();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        //Debug.Log (is_flick_start);
+        //Debug.Log(PopupManager.select_done);
         //フリック開始判定及び球種調整
-        if (Input.GetMouseButtonDown(0) && game_status == 0) {
-            if (_touch_curve_button ()) {
-                //trueの場合はこのスコープでは特に何もしない
-            } else {
-                start_time = DateTime.Now;
-                Vector3 point = get_touch_point ();
-                flick_start_position = point;
-                is_flick_start = true;
+        if (Input.GetMouseButtonDown(0) && !is_flick_start) {
+            start_time = DateTime.Now;
+            if (PopupManager.select_done) {
+                get_touch_point ();
+                if (is_flick_start) {
+                    Ball.power = 0;
+                    flick_start_position = ball_start_position;
+                }
             }
         }
         //フリック開始終了
-        else if (is_flick_start && Input.GetMouseButtonUp(0) && game_status == 0) {
+        else if (is_flick_start && Input.GetMouseButtonUp(0) && game_status == 0 && flick_start_position != Vector3.zero) {
             is_flick_start = false;
             end_time = DateTime.Now;
             TimeSpan time = end_time-start_time;
@@ -123,15 +124,28 @@ public class GameController : MonoBehaviour {
             Ball ball_script = ball.GetComponent<Ball>();
             ball_script.shoot(
                 flick_start_position,
-                flick_end_position,
-                (float)time.TotalMilliseconds
+                flick_end_position
             );
             game_status = 1;
             total_ball_num--;
         }
-        //ドラッグ中
-        else if (Input.GetMouseButton(0) && game_status == 0) {
+        //ドラッグ中(パワー決め or 方向決定中)
+        else if (Input.GetMouseButton(0) && game_status == 0 && is_flick_start) {
             Vector3 point = get_touch_point();
+            //サッカーボールとの距離が誤差のレベルの場合はパワーを更新
+            Debug.Log ((point - ball_start_position).magnitude);
+            if ((point - ball_start_position).magnitude < 1.0f) {
+                if (gauge_status == 1) {
+                    Ball.power += 2.0f;
+                } else {
+                    Ball.power -= 2.0f;
+                }
+                if (Ball.power >= 99) {
+                    gauge_status = 2;
+                } else if (Ball.power <= 0) {
+                    gauge_status = 1;
+                }
+            }
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
@@ -192,52 +206,6 @@ public class GameController : MonoBehaviour {
         }
 	}
 
-    /*----------------------
-    _touch_curve_button
-    curve(direct)ボタンに触れたかどうか判定し、Ball.csのcurve_typeをupdateする
-    ------------------------*/
-    bool _touch_curve_button() {
-        //マウスカーソルからのRay発射
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast (ray, out hit)) {
-            //オブジェクトに全く衝突しなかった場合
-            if (!hit.collider.gameObject) {
-                return false;
-            } else {
-                GameObject target= hit.collider.gameObject;
-                GameObject right_curve = GameObject.Find ("RightButton");
-                GameObject left_curve = GameObject.Find ("LeftButton");
-                GameObject direct = GameObject.Find ("DirectButton");
-
-                if (target == right_curve) {
-                    Ball.ball_type = 1;
-                    right_curve.renderer.material.color = Color.white;
-                    left_curve.renderer.material.color = Color.white;
-                    direct.renderer.material.color = Color.white;
-                    target.renderer.material.color = Color.blue;
-                    return true;
-                } else if (target == left_curve) {
-                    Ball.ball_type = 2;
-                    right_curve.renderer.material.color = Color.white;
-                    left_curve.renderer.material.color = Color.white;
-                    direct.renderer.material.color = Color.white;
-                    target.renderer.material.color = Color.blue;
-                    return true;
-                } else if (target == direct) {
-                    Ball.ball_type = 0;
-                    right_curve.renderer.material.color = Color.white;
-                    left_curve.renderer.material.color = Color.white;
-                    direct.renderer.material.color = Color.white;
-                    target.renderer.material.color = Color.blue;
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
     /* ---------------------
     get_touch_point
     2次元座標からUnityの座標へ変換して返す
@@ -252,6 +220,10 @@ public class GameController : MonoBehaviour {
                 //衝突したオブジェクトがなければ暫定的に原点を返す
                 Debug.Log("Ray doesn\'t hit the object!!");
                 return Vector3.zero;
+            }
+            GameObject ball = GameObject.Find("SoccerBall");
+            if (hit.collider.gameObject == ball) {
+                is_flick_start = true;
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;

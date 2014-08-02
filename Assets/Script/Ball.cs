@@ -55,23 +55,18 @@ public class Ball : MonoBehaviour {
     }*/
     public void shoot(
         Vector3 flick_start_position,
-        Vector3 flick_end_position,
-        float ms //これはフリックするのにかかった時間
+        Vector3 flick_end_position
     ) {
         //横向きの加速度の決定(蹴り始めた座標で決定する)
         float ac_coefficient = _calculate_ac_coefficient(flick_start_position);
         ac_x = ac_max * ac_coefficient;
-        Debug.Log(ac_x);
+        //Debug.Log(ac_x);
         //ac_x = ac_max * (float)Pointer.ac_prop();
         //ac_x = ac_max;
         //初速のベクトルの決定
-        power = 100 * (1000 - ms)/1000;
-        if (power < 24) {
-            power = 24;
-        }
         Vector3 temp = flick_end_position-flick_start_position;
         float rate = GameController.ball_panel_distance / temp.z;
-        temp = new Vector3(temp.x * rate, 20.0f * power/100 ,temp.z * rate);
+        temp = new Vector3(temp.x * rate, 15.0f * power/100 ,temp.z * rate);
         temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
         //temp = temp.normalized * power * 0.36f;
         this.rigidbody.velocity = temp;
