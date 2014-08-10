@@ -117,23 +117,29 @@ public class GameController : MonoBehaviour {
             is_flick_start = false;
             end_time = DateTime.Now;
             TimeSpan time = end_time-start_time;
-            Vector3 point = get_touch_point();
-            flick_end_position = point;
-            //ボールObjectを取得してボールを発射する
-            GameObject ball = GameObject.Find("SoccerBall");
-            Ball ball_script = ball.GetComponent<Ball>();
-            ball_script.shoot(
-                flick_start_position,
-                flick_end_position
-            );
-            game_status = 1;
-            total_ball_num--;
+            int tms = (int)time.TotalMilliseconds;
+            if (tms < 1000) {
+                Vector3 point = get_touch_point ();
+                flick_end_position = point;
+                //ボールObjectを取得してボールを発射する
+                GameObject ball = GameObject.Find ("SoccerBall");
+                Ball ball_script = ball.GetComponent<Ball> ();
+                ball_script.shoot (
+                    flick_start_position,
+                    flick_end_position,
+                    tms
+                );
+                game_status = 1;
+                total_ball_num--;
+            } else {
+                //特に何もしない
+            }
         }
         //ドラッグ中(パワー決め or 方向決定中)
         else if (Input.GetMouseButton(0) && game_status == 0 && is_flick_start) {
-            Vector3 point = get_touch_point();
+            //Vector3 point = get_touch_point();
             //サッカーボールとの距離が誤差のレベルの場合はパワーを更新
-            Debug.Log ((point - ball_start_position).magnitude);
+            /*Debug.Log ((point - ball_start_position).magnitude);
             if ((point - ball_start_position).magnitude < 1.0f) {
                 if (gauge_status == 1) {
                     Ball.power += 2.0f;
@@ -145,7 +151,7 @@ public class GameController : MonoBehaviour {
                 } else if (Ball.power <= 0) {
                     gauge_status = 1;
                 }
-            }
+            }*/
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
