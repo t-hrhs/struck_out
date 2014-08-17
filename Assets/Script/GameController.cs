@@ -87,8 +87,14 @@ public class GameController : MonoBehaviour {
         panel_remaining_num = Config.panel_config[Config.stage_id].Length;
         panels = new Panel[total_panel_num];
         for (int i = 0; i < total_panel_num; i++) {
-            GameObject tmp = PanelManager.make_panel_object(0,i);
+            GameObject tmp = PanelManager.make_panel_object(Config.stage_id,i);
             panels[i] = tmp.GetComponent<Panel>();
+        }
+        //障害物の情報
+        int total_obstacle_num = Config.obstacle_config[Config.stage_id].Length;
+        for (int i = 0; i < total_obstacle_num; i++) {
+            //障害物のインスタンスの生成
+            ObstacleManager.make_obstacle_object (Config.stage_id, i);
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
@@ -155,22 +161,6 @@ public class GameController : MonoBehaviour {
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
-            if (does_target_hit) {
-                DateTime targetTime = DateTime.Now;
-               if (target_unix_time == 0) {
-                   //animationの計測開始
-                   target_unix_time = GetUnixTime(targetTime);
-                   animation = true;
-               }
-               else if (GetUnixTime(targetTime) - target_unix_time < 3){
-                   //3秒以内なら特に何もしない
-               }
-               else {
-                    target_unix_time = 0;
-                    animation = false;
-                    does_target_hit = false;
-               }
-            } else {
             //パネルを1枚でも当てられた場合は歓声を流す
             //さらにここで計算も行う
             if (panel_num_per_action > 0) {
@@ -208,7 +198,6 @@ public class GameController : MonoBehaviour {
                 }
                 panel_choice();
             }
-        }
         }
 	}
 

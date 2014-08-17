@@ -159,6 +159,7 @@
 'Assets/Script/GameController.cs'
 'Assets/Script/Logo.cs'
 'Assets/Script/Obstacle.cs'
+'Assets/Script/ObstacleManager.cs'
 'Assets/Script/Panel.cs'
 'Assets/Script/PanelManager.cs'
 'Assets/Script/Pointer.cs'

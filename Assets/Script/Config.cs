@@ -61,7 +61,64 @@ public static class Config {
             new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
             new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
         },
+        //ステージ4
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
+        //ステージ5
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
     };
     //3-2. ボール数の情報
-    public static int[] ball_num = {15,15,15};
+    public static int[] ball_num = {15,15,15,15,15};
+    //3-3. 障害物の情報
+    public static Dictionary<string, float>[][] obstacle_config = new Dictionary<string, float>[][]{
+        //ステージ1(障害物0個)
+        new Dictionary<string, float>[] {},
+        //ステージ2
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",1}},
+            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",1}},
+        },
+        //ステージ3
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",2.714815f},{"y",2.838175f},{"z",-4.009133f},{"obs_id",1.0f},{"type",1}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-4.009132f},{"obs_id",1.0f},{"type",1}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",3}},
+            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"type",4}},
+        },
+        //ステージ4
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",2.714815f},{"y",2.838175f},{"z",-4.009133f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-4.009132f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",3}},
+            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",4}},
+        },
+        //ステージ5
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",5.512368f},{"y",2.838175f},{"z",-4.009134f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
+            new Dictionary<string, float>() {{"x",0.2544718f},{"y",6.566844f},{"z",-4.391799f},{"obs_id",1.0f},{"scale_x",2.0f},{"scale_y",2.0f},{"scale_z",0.50f},{"type",2}},
+            new Dictionary<string, float>() {{"x",-4.407021f},{"y",2.838175f},{"z",-4.009131f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",3}},
+            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",4}},
+        },
+    };
+
 }
