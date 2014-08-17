@@ -75,5 +75,13 @@ public class TopPage : MonoBehaviour {
                 //Application.LoadLevel("explain_stage_1");
             }
         }
+        if (user_clear_stage > 3) {
+            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval)*2, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"6th STG", style_for_button)) {
+                Config.stage_id = 5;
+                //Go to the 5th STG
+                Application.LoadLevel("GameScene");
+                //Application.LoadLevel("explain_stage_1");
+            }
+        }
     }
 }

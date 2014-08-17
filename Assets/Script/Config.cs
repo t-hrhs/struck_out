@@ -20,7 +20,7 @@ public static class Config {
 
     //TODO : あとで消す
     public static int panel_width_num = 4;
-    public static int[] panel_height_num = {3,3,3,3,3};
+    public static int[] panel_height_num = {3,3,3,3,3,3};
 
     //3. ステージ情報
     //3-1. パネルの情報
@@ -85,9 +85,21 @@ public static class Config {
             new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
             new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
         },
+        //ステージ6
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
+        },
     };
     //3-2. ボール数の情報
-    public static int[] ball_num = {15,15,15,15,15};
+    public static int[] ball_num = {15,15,15,15,15,15};
     //3-3. 障害物の情報
     public static Dictionary<string, float>[][] obstacle_config = new Dictionary<string, float>[][]{
         //ステージ1(障害物0個)
@@ -119,6 +131,8 @@ public static class Config {
             new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",3}},
             new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",4}},
         },
+        //ステージ6
+        new Dictionary<string, float>[] {},
     };
 
 }

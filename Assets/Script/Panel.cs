@@ -13,18 +13,23 @@ public class Panel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (this.transform.position.z > (float)judge_point_z) {
-            //constraintの初期化
-            this.rigidbody.constraints = RigidbodyConstraints.None;
-            //this.active = false;
-            if (!this.clear_flag) {
-                //NOTE : ここでは足さず、連続ボーナス等をまとめて
-                //GameController.total_score += point;
-                GameController.panel_remaining_num--;
+        //ありえない方向にパネルが動き出したらその場停止
+        if (this.rigidbody.velocity.z < 0) {
+            this.rigidbody.velocity = Vector3.zero;
+        } else {
+            if (this.transform.position.z > (float)judge_point_z) {
+                //constraintの初期化
+                this.rigidbody.constraints = RigidbodyConstraints.None;
+                //this.active = false;
+                if (!this.clear_flag) {
+                    //NOTE : ここでは足さず、連続ボーナス等をまとめて
+                    //GameController.total_score += point;
+                    GameController.panel_remaining_num--;
+                }
+                this.clear_flag = true;
+                //colliderの判定をoffにする
+                //this.collider.enabled = false;
             }
-            this.clear_flag = true;
-            //colliderの判定をoffにする
-            //this.collider.enabled = false;
         }
 	}
 
