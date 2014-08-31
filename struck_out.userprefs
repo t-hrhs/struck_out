@@ -1,11 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Config.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Ball.cs">
     <Files>
       <File FileName="Assets/Script/Obstacle.cs" Line="39" Column="20" />
-      <File FileName="Assets/Script/Config.cs" Line="81" Column="121" />
-      <File FileName="Assets/Script/TopPage.cs" Line="74" Column="49" />
-      <File FileName="Assets/Script/GameController.cs" Line="97" Column="57" />
+      <File FileName="Assets/Script/Config.cs" Line="81" Column="83" />
+      <File FileName="Assets/Script/TopPage.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameController.cs" Line="290" Column="50" />
+      <File FileName="Assets/Script/Pointer.cs" Line="86" Column="14" />
+      <File FileName="Assets/Script/Ball.cs" Line="82" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

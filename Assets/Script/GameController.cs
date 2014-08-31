@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour {
      - user_touchable : 0
      - ball_moving : 1
      - clear_check : 2
+     - cureve_fix : 3
     ----------------------*/
     public static int game_status = 0;
 
@@ -112,6 +113,7 @@ public class GameController : MonoBehaviour {
             start_time = DateTime.Now;
             if (PopupManager.select_done) {
                 get_touch_point ();
+                //Debug.Log (is_flick_start);
                 if (is_flick_start) {
                     Ball.power = 0;
                     flick_start_position = ball_start_position;
@@ -211,6 +213,7 @@ public class GameController : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)) {
             //オブジェクトに全く衝突しなかった場合
+            Debug.Log (hit.collider.gameObject);
             if (!hit.collider.gameObject) {
                 //衝突したオブジェクトがなければ暫定的に原点を返す
                 Debug.Log("Ray doesn\'t hit the object!!");
@@ -219,6 +222,17 @@ public class GameController : MonoBehaviour {
             GameObject ball = GameObject.Find("SoccerBall");
             if (hit.collider.gameObject == ball) {
                 is_flick_start = true;
+            }
+            //回転・高さの調節をしたい場合
+            if (hit.collider.gameObject.tag=="pointer" ||
+                hit.collider.gameObject.tag=="ball_cylinder") {
+                if (game_status == 3) {
+                    //pointerオブジェクトを探索する
+                    GameObject pointer_obj = GameObject.Find ("Pointer");
+                    //pointerをタッチされた座標に更新する
+                    Pointer pointer = pointer_obj.GetComponent<Pointer> ();
+                    pointer.change_position (hit.point);
+                }
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
@@ -259,6 +273,24 @@ public class GameController : MonoBehaviour {
         Rect rect3 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect3,power,style_for_status);
+        //調整ボタン
+        if (GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "Curve & Direction", style_for_button)) {
+            GameObject indicator = GameObject.Find ("BallIndicator");
+            GameObject pointer = GameObject.Find ("Pointer");
+            if (game_status == 0) {
+                game_status = 3;
+                indicator.collider.enabled = true;
+                indicator.renderer.enabled = true;
+                pointer.collider.enabled = true;
+                pointer.renderer.enabled = true;
+            } else if (game_status == 3) {
+                game_status = 0;
+                indicator.collider.enabled = false;
+                indicator.renderer.enabled = false;
+                pointer.collider.enabled = false;
+                pointer.renderer.enabled = false;
+            }
+        }
     }
     private static DateTime UNIX_EPOCH = new DateTime(1970,1,1,0,0,0,0);
     public static int GetUnixTime(DateTime targetTime){

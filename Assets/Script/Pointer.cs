@@ -12,11 +12,11 @@ public class Pointer : MonoBehaviour {
     public static Vector3[] positions;
 	// Use this for initialization
 	void Start () {
-        center_position = GameObject.Find("Ball_Indicator").transform.position;
-        cyclinder_radius = GameObject.Find("Ball_Indicator").transform.localScale.x/2;
+        center_position = GameObject.Find("BallIndicator").transform.position;
+        cyclinder_radius = GameObject.Find("BallIndicator").transform.localScale.x/2;
         pointer_radius = this.transform.localScale.x/2;
         positions = new Vector3[13];
-        float temp = center_position.z - 0.005f;
+        float temp = center_position.z - GameObject.Find("BallIndicator").transform.localScale.y -  this.transform.localScale.y;
         positions[0] = new Vector3(
             center_position.x,
             center_position.y + cyclinder_radius - pointer_radius,
@@ -97,6 +97,10 @@ public class Pointer : MonoBehaviour {
             center_position.z
         );
         int min_index = 0;
+        // カメラの射出が斜めになっているのでした部分の座標が多少ずれるのを補正
+        if (mouse_input.y < center_position.y) {
+            mouse_input.y -= 0.25f;
+        }
         float min_length = (mouse_input - positions[0]).magnitude;
         for (int i = 0;i<13;i++) {
             if (min_length > (mouse_input - positions[i]).magnitude) {
