@@ -12,9 +12,44 @@ public class Pointer : MonoBehaviour {
     public static Vector3[] positions;
 	// Use this for initialization
 	void Start () {
+        update_change_array ();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+    }
+    public void change_position(Vector3 mouse_input) {
+        mouse_input = new Vector3(
+            mouse_input.x,
+            mouse_input.y,
+            center_position.z
+        );
+        int min_index = 0;
+        // カメラの射出が斜めになっているのでした部分の座標が多少ずれるのを補正
+        if (mouse_input.y < center_position.y) {
+            mouse_input.y -= 0.25f;
+        }
+        float min_length = (mouse_input - positions[0]).magnitude;
+        for (int i = 0;i<13;i++) {
+            if (min_length > (mouse_input - positions[i]).magnitude) {
+                min_index = i;
+                min_length = (mouse_input - positions[i]).magnitude;
+            }
+        }
+        this.transform.position = positions[min_index];
+        current_index = min_index;
+        current_position = positions[min_index];
+        ball_height = heights[current_index];
+    }
+    public static double ac_prop() {
+        return (double) -1 * (current_position.x-center_position.x)/cyclinder_radius;
+    }
+    public void update_change_array() {
         center_position = GameObject.Find("BallIndicator").transform.position;
-        cyclinder_radius = GameObject.Find("BallIndicator").transform.localScale.x/2;
-        pointer_radius = this.transform.localScale.x/2;
+        Vector3 indicator_local_scale = GameObject.Find ("BallIndicator").transform.localScale;
+        cyclinder_radius = indicator_local_scale.x/2;
+        pointer_radius = indicator_local_scale.x/20;
         positions = new Vector3[13];
         float temp = center_position.z - GameObject.Find("BallIndicator").transform.localScale.y -  this.transform.localScale.y;
         positions[0] = new Vector3(
@@ -82,38 +117,9 @@ public class Pointer : MonoBehaviour {
             center_position.y - cyclinder_radius + pointer_radius,
             temp
         );
-        current_position = positions[6];
+        current_position = positions[current_index];
         ball_height = heights[current_index];
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-    }
-    public void change_position(Vector3 mouse_input) {
-        mouse_input = new Vector3(
-            mouse_input.x,
-            mouse_input.y,
-            center_position.z
-        );
-        int min_index = 0;
-        // カメラの射出が斜めになっているのでした部分の座標が多少ずれるのを補正
-        if (mouse_input.y < center_position.y) {
-            mouse_input.y -= 0.25f;
-        }
-        float min_length = (mouse_input - positions[0]).magnitude;
-        for (int i = 0;i<13;i++) {
-            if (min_length > (mouse_input - positions[i]).magnitude) {
-                min_index = i;
-                min_length = (mouse_input - positions[i]).magnitude;
-            }
-        }
-        this.transform.position = positions[min_index];
-        current_index = min_index;
-        current_position = positions[min_index];
-        ball_height = heights[current_index];
-    }
-    public static double ac_prop() {
-        return (double) -1 * (current_position.x-center_position.x)/cyclinder_radius;
+        this.transform.position = current_position;
+        this.transform.localScale = indicator_local_scale / 10;
     }
 }

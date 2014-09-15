@@ -205,24 +205,30 @@ public class GameController : MonoBehaviour {
         if (Physics.Raycast(ray, out hit)) {
             //オブジェクトに全く衝突しなかった場合
             Debug.Log (hit.collider.gameObject);
+            GameObject ball = GameObject.Find("SoccerBall");
             if (!hit.collider.gameObject) {
                 //衝突したオブジェクトがなければ暫定的に原点を返す
-                Debug.Log("Ray doesn\'t hit the object!!");
+                Debug.Log ("Ray doesn\'t hit the object!!");
                 return Vector3.zero;
-            }
-            GameObject ball = GameObject.Find("SoccerBall");
-            if (hit.collider.gameObject == ball) {
+            } else if (hit.collider.gameObject == ball) {
                 is_flick_start = true;
             }
             //回転・高さの調節をしたい場合
-            if (hit.collider.gameObject.tag=="pointer" ||
-                hit.collider.gameObject.tag=="ball_cylinder") {
+            else if (hit.collider.gameObject.tag == "pointer" ||
+                     hit.collider.gameObject.tag == "ball_cylinder") {
                 if (game_status == 3) {
                     //pointerオブジェクトを探索する
                     GameObject pointer_obj = GameObject.Find ("Pointer");
                     //pointerをタッチされた座標に更新する
                     Pointer pointer = pointer_obj.GetComponent<Pointer> ();
                     pointer.change_position (hit.point);
+                } else if (game_status == 0) {
+                    game_status = 3;
+                    GameObject indicator = GameObject.Find ("BallIndicator");
+                    GameObject pointer = GameObject.Find ("Pointer");
+                    indicator.transform.position = new Vector3 (0.3045821f,1.506949f,-15.50411f);
+                    indicator.transform.localScale = new Vector3 (2.0f, 0.1f, 2.0f);
+                    pointer.GetComponent<Pointer> ().update_change_array();
                 }
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
@@ -265,22 +271,13 @@ public class GameController : MonoBehaviour {
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect3,power,style_for_status);
         //調整ボタン
-        if (GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "Curve & Direction", style_for_button)) {
+        if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!", style_for_button)) {
             GameObject indicator = GameObject.Find ("BallIndicator");
             GameObject pointer = GameObject.Find ("Pointer");
-            if (game_status == 0) {
-                game_status = 3;
-                indicator.collider.enabled = true;
-                indicator.renderer.enabled = true;
-                pointer.collider.enabled = true;
-                pointer.renderer.enabled = true;
-            } else if (game_status == 3) {
                 game_status = 0;
-                indicator.collider.enabled = false;
-                indicator.renderer.enabled = false;
-                pointer.collider.enabled = false;
-                pointer.renderer.enabled = false;
-            }
+                indicator.transform.position = new Vector3 (1.603648f,0.5504193f,-15.49023f);
+                indicator.transform.localScale = new Vector3 (0.4f, 0.01f, 0.4f);
+                pointer.GetComponent<Pointer> ().update_change_array();
         }
     }
     private static DateTime UNIX_EPOCH = new DateTime(1970,1,1,0,0,0,0);

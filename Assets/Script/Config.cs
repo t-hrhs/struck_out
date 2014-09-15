@@ -20,7 +20,7 @@ public static class Config {
 
     //TODO : あとで消す
     public static int panel_width_num = 4;
-    public static int[] panel_height_num = {3,3,3,3,3,3};
+    public static int[] panel_height_num = {3,3,3,3,3,3,3};
 
     //3. ステージ情報
     //3-1. パネルの情報
@@ -97,9 +97,21 @@ public static class Config {
             new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
             new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
         },
+        //ステージ7
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
     };
     //3-2. ボール数の情報
-    public static int[] ball_num = {15,15,15,15,15,15};
+    public static int[] ball_num = {15,15,15,15,15,15,15};
     //3-3. 障害物の情報
     public static Dictionary<string, float>[][] obstacle_config = new Dictionary<string, float>[][]{
         //ステージ1(障害物0個)
@@ -133,6 +145,12 @@ public static class Config {
         },
         //ステージ6
         new Dictionary<string, float>[] {},
+        //ステージ7
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-0.3636186f},{"obs_id",2.0f},{"scale_x",4.00f},{"scale_y",4.00f},{"scale_z",1.50f},{"type",1}},
+            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-2.36186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",3}},
+            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-5.936186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",4}},
+        },
     };
 
 }

@@ -65,13 +65,13 @@ public class Ball : MonoBehaviour {
         ac_x = ac_max * (float)Pointer.ac_prop();
         //ac_x = ac_max;
         //初速のベクトルの決定
-        if (total_ms < 200) {
+        if (total_ms < 150) {
             power = 80;
-        } else if (total_ms < 400) {
+        } else if (total_ms < 300) {
             power = 64;
-        } else if (total_ms < 600) {
+        } else if (total_ms < 400) {
             power = 48;
-        } else if (total_ms < 800) {
+        } else if (total_ms < 600) {
             power = 32;
         } else {
             power = 16;
