@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
      - user_touchable : 0
      - ball_moving : 1
      - clear_check : 2
-     - cureve_fix : 3
+     - curve_fix : 3
     ----------------------*/
     public static int game_status = 0;
 
@@ -126,40 +126,31 @@ public class GameController : MonoBehaviour {
             end_time = DateTime.Now;
             TimeSpan time = end_time-start_time;
             int tms = (int)time.TotalMilliseconds;
+            //1秒以内かつフリックの距離が規定値を超えていないと発射しない
             if (tms < 1000) {
                 Vector3 point = get_touch_point ();
-                flick_end_position = point;
-                //ボールObjectを取得してボールを発射する
-                GameObject ball = GameObject.Find ("SoccerBall");
-                Ball ball_script = ball.GetComponent<Ball> ();
-                ball_script.shoot (
-                    flick_start_position,
-                    flick_end_position,
-                    tms
-                );
-                game_status = 1;
-                total_ball_num--;
+                //距離の判定はここで行う
+                //Debug.Log ((point - flick_start_position).magnitude);
+                if ((point - flick_start_position).magnitude >= 5) {
+                    flick_end_position = point;
+                    //ボールObjectを取得してボールを発射する
+                    GameObject ball = GameObject.Find ("SoccerBall");
+                    Ball ball_script = ball.GetComponent<Ball> ();
+                    ball_script.shoot (
+                        flick_start_position,
+                        flick_end_position,
+                        tms
+                    );
+                    game_status = 1;
+                    total_ball_num--;
+                }
             } else {
                 //特に何もしない
             }
         }
         //ドラッグ中(パワー決め or 方向決定中)
-        else if (Input.GetMouseButton(0) && game_status == 0 && is_flick_start) {
-            //Vector3 point = get_touch_point();
-            //サッカーボールとの距離が誤差のレベルの場合はパワーを更新
-            /*Debug.Log ((point - ball_start_position).magnitude);
-            if ((point - ball_start_position).magnitude < 1.0f) {
-                if (gauge_status == 1) {
-                    Ball.power += 2.0f;
-                } else {
-                    Ball.power -= 2.0f;
-                }
-                if (Ball.power >= 99) {
-                    gauge_status = 2;
-                } else if (Ball.power <= 0) {
-                    gauge_status = 1;
-                }
-            }*/
+        else if (Input.GetMouseButton(0) && game_status == 3) {
+            Vector3 point = get_touch_point();
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
