@@ -3,32 +3,59 @@ using System;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+    // GUIボタン等の設定を保持するObject
     public GUISkin style;
     public GUIStyle style_for_status;
     public GUIStyle style_for_button;
-    //TODO : enumにしてわかりやすい変数の持ち方にする
-    //GameStatus
-    //user_touchable : 0
-    //ball_moving : 1
-    //clear_check : 2
+
+    /* ---------------------
+    GameStatus
+     - user_touchable : 0
+     - ball_moving : 1
+     - clear_check : 2
+     - curve_fix : 3
+    ----------------------*/
     public static int game_status = 0;
-    public GameObject PanelPrefab;
+
     //ボールの定位置
     public static Vector3 ball_start_position;
-    //ボールとパネルのz座標の距離
     public static float ball_panel_distance;
+    public static bool is_flick_start;
+
+    /* ---------------------
+     ユーザのフリック情報
+     start_time : ユーザがフリックした時間
+     end_time : ユーザがフリックを終えた時間
+     flick_start_position : ユーザがフリックを開始した3次元座標
+     flick_end_position : ユーザがフリックを終了した3次元座標
+     ---------------------*/
     public static DateTime start_time;
     public static DateTime end_time;
-    public Panel[,] panels;
-    public static int panel_num = 9;
+    public static Vector3 flick_start_position;
+    public static Vector3 flick_end_position;
+
+    /* -------------------
+    パネルに関する情報
+     - panels : 実際のpanelインスタンスの集合
+     - total_panel_num : ステージに出現するパネルの枚数
+     - panel_remaining_num : ステージ上に残っているパネルの枚数
+     -
+    --------------------- */
+    public Panel[] panels;
+    public static int total_panel_num;
+    public static int panel_remaining_num;
     public static int total_score = 0;
-    public static int total_ball_num = 15;
+    public static int total_ball_num;
     //乱数のseed
     public static int seed;
     System.Random rnd;
     public static bool is_cleared = true;
-    //ボタンが押されたかを保持する
-    public static bool kick_button_touched = false;
+    /* --------------------
+    ゲーム画面の状態を保存しておく変数
+    0 : ユーザ調整画面
+    1 : ボールの運動中画面
+    2 : パネルhit等更新画面
+    -------------------*/
     public static int gauge_status;
     //ボールを蹴るごとににぬいた枚数
     public static int panel_num_per_action = 0;
@@ -50,99 +77,83 @@ public class GameController : MonoBehaviour {
         //game_statusをuser_touchableにする
 	    game_status = 0;
         total_score = 0;
-        total_ball_num = 15;
-        panel_num = 9;
+        total_ball_num = Config.ball_num[Config.stage_id];
         panel_num_per_action = 0;
         score_per_action = 0;
         is_cleared = true;
-        kick_button_touched = false;
+        is_flick_start = false;
         animation = false;
-        panels = new Panel[Config.panel_width_num,Config.panel_height_num[Config.stage_id]];
-        //実際にpanelをinitiate
-        GameObject tmp = GameObject.Instantiate(this.PanelPrefab,
-            new Vector3(
-                (float)0.27f,
-                (float)0.93f,
-                (float)11.0f
-            ),
-            Quaternion.identity
-        ) as GameObject;
-        panels[0,0] = tmp.GetComponent<Panel>();
-        panels[0,0].set_texture(8);
-        int panel_index = 0;
-        for (int i = 0; i < Config.panel_width_num; i++) {
-            for (int j = Config.panel_height_num[Config.stage_id]-1; j > 0;j--) {
-                GameObject temp = GameObject.Instantiate(this.PanelPrefab,
-                    new Vector3(
-                        (float)(-6.15f + 4.5f * i),
-                        (float)(0.93f + 2.0f * j),
-                        (float)11.0f
-                    ),
-                    Quaternion.identity
-                ) as GameObject;
-                panels[i,j] = temp.GetComponent<Panel>();
-                panels[i,j].set_texture(Config.panel_width_num * (Config.panel_height_num[Config.stage_id] - j - 1) + i);
-            }
+        //panel情報の獲得
+        total_panel_num = Config.panel_config[Config.stage_id].Length;
+        panel_remaining_num = Config.panel_config[Config.stage_id].Length;
+        panels = new Panel[total_panel_num];
+        for (int i = 0; i < total_panel_num; i++) {
+            GameObject tmp = PanelManager.make_panel_object(Config.stage_id,i);
+            panels[i] = tmp.GetComponent<Panel>();
+        }
+        //障害物の情報
+        int total_obstacle_num = Config.obstacle_config[Config.stage_id].Length;
+        for (int i = 0; i < total_obstacle_num; i++) {
+            //障害物のインスタンスの生成
+            ObstacleManager.make_obstacle_object (Config.stage_id, i);
         }
         ball_start_position = GameObject.Find("SoccerBall").transform.position;
         ball_panel_distance = 12.5f - ball_start_position.z;
+        flick_start_position = Vector3.zero;
         panel_choice();
         audioSource.Play();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonUp(0) && kick_button_touched) {
-            GameObject ball = GameObject.Find("SoccerBall");
-            Ball ball_script = ball.GetComponent<Ball>();
-            ball_script.shoot();
-            game_status = 1;
-            total_ball_num--;
-            kick_button_touched = false;
-        }
-        else if (Input.GetMouseButton(0) && kick_button_touched) {
-            //Debug.Log(Ball.power);
-            if (gauge_status == 1) {
-                Ball.power += 2.0f;
-            } else {
-                Ball.power -=2.0f;
+        //Debug.Log (is_flick_start);
+        //Debug.Log(PopupManager.select_done);
+        //フリック開始判定及び球種調整
+        if (Input.GetMouseButtonDown(0) && !is_flick_start) {
+            start_time = DateTime.Now;
+            if (PopupManager.select_done) {
+                get_touch_point ();
+                //Debug.Log (is_flick_start);
+                if (is_flick_start) {
+                    Ball.power = 0;
+                    flick_start_position = ball_start_position;
+                }
             }
-            if (Ball.power >= 99) {
-                gauge_status = 2;
-            } else if (Ball.power <= 0){
-                gauge_status = 1;
-            }
-        }
-	    //フリック開始判定
-        else if (Input.GetMouseButtonDown(0) && game_status == 0) {
-            get_touch_point();
         }
         //フリック開始終了
-        else if (Input.GetMouseButtonUp(0) && game_status == 0) {
-            get_touch_point();
+        else if (is_flick_start && Input.GetMouseButtonUp(0) && game_status == 0 && flick_start_position != Vector3.zero) {
+            is_flick_start = false;
+            end_time = DateTime.Now;
+            TimeSpan time = end_time-start_time;
+            int tms = (int)time.TotalMilliseconds;
+            //1秒以内かつフリックの距離が規定値を超えていないと発射しない
+            if (tms < 1000) {
+                Vector3 point = get_touch_point ();
+                //距離の判定はここで行う
+                //Debug.Log ((point - flick_start_position).magnitude);
+                if ((point - flick_start_position).magnitude >= 5) {
+                    flick_end_position = point;
+                    //ボールObjectを取得してボールを発射する
+                    GameObject ball = GameObject.Find ("SoccerBall");
+                    Ball ball_script = ball.GetComponent<Ball> ();
+                    ball_script.shoot (
+                        flick_start_position,
+                        flick_end_position,
+                        tms
+                    );
+                    game_status = 1;
+                    total_ball_num--;
+                }
+            } else {
+                //特に何もしない
+            }
         }
-        //ドラッグ中
-        else if (Input.GetMouseButton(0) && game_status == 0) {
-            get_touch_point();
+        //ドラッグ中(パワー決め or 方向決定中)
+        else if (Input.GetMouseButton(0) && game_status == 3) {
+            Vector3 point = get_touch_point();
         }
         //ゲーム終了条件の判定もここで行う
         if (game_status == 2) {
-            if (does_target_hit) {
-                DateTime targetTime = DateTime.Now;
-               if (target_unix_time == 0) {
-                   //animationの計測開始
-                   target_unix_time = GetUnixTime(targetTime);
-                   animation = true;
-               }
-               else if (GetUnixTime(targetTime) - target_unix_time < 3){
-                   //3秒以内なら特に何もしない
-               }
-               else {
-                    target_unix_time = 0;
-                    animation = false;
-                    does_target_hit = false;
-               }
-            } else {
             //パネルを1枚でも当てられた場合は歓声を流す
             //さらにここで計算も行う
             if (panel_num_per_action > 0) {
@@ -154,15 +165,10 @@ public class GameController : MonoBehaviour {
                 panel_num_per_action = 0;
             }
             bool ok = true;
-            if (!panels[0,0].clear_flag) {
-                ok = false;
-            }
-            for(int i=0;i<Config.panel_width_num;i++) {
-               for(int j = 1;j < Config.panel_height_num[Config.stage_id];j++) {
-                    if (!panels[i,j].clear_flag) {
-                        ok = false;
-                        break;
-                    }
+            for(int i=0;i<total_panel_num;i++) {
+               if (!panels[i].clear_flag) {
+                    ok = false;
+                    break;
                }
             }
             if (ok) {
@@ -180,65 +186,54 @@ public class GameController : MonoBehaviour {
             } else  {
                 game_status = 0;
                 panel_num_per_action = 0;
-                panels[0,0].setDefault();
-                for (int i = 0;i<Config.panel_width_num;i++){
-                    for (int j=1;j<Config.panel_height_num[Config.stage_id];j++) {
-                        panels[i,j].setDefault();
-                    }
+                for (int i = 0;i<total_panel_num;i++){
+                    panels[i].setDefault();
                 }
                 panel_choice();
             }
         }
-        }
 	}
 
+    /* ---------------------
+    get_touch_point
+    2次元座標からUnityの座標へ変換して返す
+    -----------------------*/
     Vector3 get_touch_point() {
         //マウスカーソルからのRay発射
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)) {
             //オブジェクトに全く衝突しなかった場合
+            Debug.Log (hit.collider.gameObject);
+            GameObject ball = GameObject.Find("SoccerBall");
             if (!hit.collider.gameObject) {
                 //衝突したオブジェクトがなければ暫定的に原点を返す
-                Debug.Log("Ray doesn\'t hit the object!!");
+                Debug.Log ("Ray doesn\'t hit the object!!");
                 return Vector3.zero;
+            } else if (hit.collider.gameObject == ball) {
+                is_flick_start = true;
+            }
+            //回転・高さの調節をしたい場合
+            else if (hit.collider.gameObject.tag == "pointer" ||
+                     hit.collider.gameObject.tag == "ball_cylinder") {
+                if (game_status == 3) {
+                    //pointerオブジェクトを探索する
+                    GameObject pointer_obj = GameObject.Find ("Pointer");
+                    //pointerをタッチされた座標に更新する
+                    Pointer pointer = pointer_obj.GetComponent<Pointer> ();
+                    pointer.change_position (hit.point);
+                } else if (game_status == 0) {
+                    game_status = 3;
+                    GameObject indicator = GameObject.Find ("BallIndicator");
+                    GameObject pointer = GameObject.Find ("Pointer");
+                    indicator.transform.position = new Vector3 (0.3045821f,1.506949f,-15.50411f);
+                    indicator.transform.localScale = new Vector3 (2.0f, 0.1f, 2.0f);
+                    pointer.GetComponent<Pointer> ().update_change_array();
+                }
             }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
-            //回転・高さの調節をしたい場合
-            if (hit.collider.gameObject.tag=="pointer" ||
-                    hit.collider.gameObject.tag=="ball_cylinder") {
-                //pointerオブジェクトを探索する
-                GameObject pointer_obj = GameObject.Find("Pointer");
-                //pointerをタッチされた座標に更新する
-                Pointer pointer = pointer_obj.GetComponent<Pointer>();
-                pointer.change_position(hit.point);
-            }
-            else if (hit.collider.gameObject.tag=="r_button") {
-                DrawLine.ball_direction = new Vector3(
-                    DrawLine.ball_direction.x + 0.1f,
-                    DrawLine.ball_direction.y,
-                    DrawLine.ball_direction.z
-                );
-                //Debug.Log(DrawLine.ball_direction);
-            }
-            else if (hit.collider.gameObject.tag=="l_button") {
-                DrawLine.ball_direction = new Vector3(
-                    DrawLine.ball_direction.x - 0.1f,
-                    DrawLine.ball_direction.y,
-                    DrawLine.ball_direction.z
-                );
-            }
-            //それ以外に衝突した場合(方向調整)
-            else {
-                if (hit_point.z > ball_start_position.z + 2) {
-                    Vector3 temp = new Vector3(hit_point.x,ball_start_position.y,hit_point.z);
-                    temp = temp - ball_start_position;
-                    temp = temp * ball_panel_distance / temp.z;
-                    DrawLine.ball_direction = ball_start_position + temp;
-                }
-            }
-            return hit_point;
+            return hit.point;
         }
         Debug.Log("fatal error about ray cast!!");
         return Vector3.zero;
@@ -246,29 +241,16 @@ public class GameController : MonoBehaviour {
 
     //ランダムにスコア2倍のパネルを選択する
     void panel_choice() {
-        int index = rnd.Next(panel_num);
+        int index = rnd.Next(panel_remaining_num);
         index++;
         int count = 0;
         int ok = 0;
-        if (!panels[0,0].clear_flag) {
-            count++;
-        }
-        if (count == index) {
-            panels[0,0].make_target(2);
-            return;
-        }
-        for (int i = 0;i<Config.panel_width_num;i++) {
-            for (int j = 1;j<Config.panel_height_num[Config.stage_id];j++) {
-                if (!panels[i,j].clear_flag) {
-                    count ++;
-                }
-                if (count == index) {
-                    panels[i,j].make_target(2);
-                    ok = 1;
-                    break;
-                }
+        for (int i = 0;i<total_panel_num;i++) {
+            if (!panels[i].clear_flag) {
+                count ++;
             }
-            if (ok==1) {
+            if (count == index) {
+                panels[i].make_target(2);
                 break;
             }
         }
@@ -288,11 +270,14 @@ public class GameController : MonoBehaviour {
         Rect rect3 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect3,power,style_for_status);
-        //Powerボタンの設置
-        if (GUI.RepeatButton (new Rect (10, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.12f), "Charge & Shoot!!",style_for_button) && game_status == 0 && !kick_button_touched) {
-            Ball.power = 0;
-            kick_button_touched = true;
-            //Debug.Log(kick_button_touched);
+        //調整ボタン
+        if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!", style_for_button)) {
+            GameObject indicator = GameObject.Find ("BallIndicator");
+            GameObject pointer = GameObject.Find ("Pointer");
+                game_status = 0;
+                indicator.transform.position = new Vector3 (1.603648f,0.5504193f,-15.49023f);
+                indicator.transform.localScale = new Vector3 (0.4f, 0.01f, 0.4f);
+                pointer.GetComponent<Pointer> ().update_change_array();
         }
     }
     private static DateTime UNIX_EPOCH = new DateTime(1970,1,1,0,0,0,0);
