@@ -147,9 +147,10 @@ public static class Config {
         new Dictionary<string, float>[] {},
         //ステージ7
         new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-0.3636186f},{"obs_id",2.0f},{"scale_x",4.00f},{"scale_y",4.00f},{"scale_z",1.50f},{"type",1}},
+            new Dictionary<string, float>() {{"x",0.2865039f},{"y",1.98f},{"z",-0.3636186f},{"obs_id",2.0f},{"scale_x",4.00f},{"scale_y",4.00f},{"scale_z",1.50f},{"type",1}},
             new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-2.36186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",3}},
             new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-5.936186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",4}},
+            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-6.936186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",7}},
         },
     };
 
