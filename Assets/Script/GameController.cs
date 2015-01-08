@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System;
 using System.Collections;
 
@@ -261,15 +261,21 @@ public class GameController : MonoBehaviour {
         GUI.skin = style;
         style_for_status.fontSize = (int)(36 * Config.s_height/1080);
         style_for_button.fontSize = (int)(40 * Config.s_height/1080);
-        Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
-        string score = "スコア : " + total_score.ToString() + "点";
-        GUI.Label(rect,score, style_for_status);
-        Rect rect2 = new Rect(10,(float)Config.s_height*0.06f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
-        string ball_num = "残りボール数 : " + total_ball_num.ToString() + "個";
-        GUI.Label(rect2,ball_num,style_for_status);
-        Rect rect3 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+		Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.065f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
+		string score = "スコア : ";
+		GUI.Label(rect,score, style_for_status);
+		Rect rect2 = new Rect ((float)Config.s_width*0.55f, (float)Config.s_height*0.065f, (float)Config.s_width * 0.45f, (float)Config.s_height * 0.06f);
+		string point = total_score.ToString() + "点";
+		GUI.Label(rect2, point, style_for_status);
+		Rect rect3 = new Rect((float)Config.s_width*0.05f,(float)Config.s_height*0.14f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+        string rest_ball = "残りボール数 : ";
+        GUI.Label(rect3,rest_ball,style_for_status);
+		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.14f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+		string ball_num = total_ball_num.ToString() + "個";
+		GUI.Label(rect4,ball_num,style_for_status);  
+        Rect rect5 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
-        GUI.Label(rect3,power,style_for_status);
+        GUI.Label(rect5,power,style_for_status);
         //調整ボタン
         if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!", style_for_button)) {
             GameObject indicator = GameObject.Find ("BallIndicator");
