@@ -31,6 +31,13 @@ public class ObstacleManager {
         obstacle.transform.eulerAngles = new Vector3(0.0f,180.0f,0.0f);
         Obstacle obstacle_obj = obstacle.GetComponent<Obstacle> ();
         obstacle_obj.move_type = (int)Config.obstacle_config [stage_id] [index] ["type"];
+        if (Config.obstacle_config [stage_id] [index].ContainsKey ("scale_x")) {
+            obstacle_obj.base_local_scale = new Vector3 (
+                Config.obstacle_config [stage_id] [index] ["scale_x"],
+                Config.obstacle_config [stage_id] [index] ["scale_y"],
+                Config.obstacle_config [stage_id] [index] ["scale_z"]
+            );
+        }
         return obstacle;
     }
 }
