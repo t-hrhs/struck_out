@@ -33,63 +33,16 @@ public class TopPage : MonoBehaviour {
         style_for_button.normal.textColor = Color.white;
         int x_offset = (int)(Config.s_width * 0.05);
         int y_offset = (int)(Config.s_height * 0.15);
+        int tmp = (int)(Config.s_height * 0.85);
         int interval = 5;
-        int bt_size_x = (int)((Config.s_width-x_offset * 2)/3 - interval);
+        int bt_size_x = (int)((Config.s_width-x_offset * 2) - interval);
         int bt_size_y = (int)((Config.s_height-y_offset * 2)/6 - interval);
         GUI.Label(rect,"Kick Target", style_for_title);
-        if (GUI.Button(new Rect(x_offset, y_offset, bt_size_x, bt_size_y),"1st STG", style_for_button)) {
+        if (GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"遊ぶ!!", style_for_button)) {
             Config.stage_id = 0;
             //Go to the 1st STG
-            Application.LoadLevel("GameScene");
+            Application.LoadLevel("StageList");
             //Application.LoadLevel("explain_stage_1");
-        }
-        if (user_clear_stage > 0) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset, bt_size_x, bt_size_y),"2nd STG",style_for_button)) {
-                Config.stage_id = 1;
-                //Go to the 2nd STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 1) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval) * 2, y_offset, bt_size_x, bt_size_y),"3rd STG", style_for_button)) {
-                Config.stage_id = 2;
-                //Go to the 3rd STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 2) {
-            if (GUI.Button(new Rect(x_offset, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"4th STG", style_for_button)) {
-                Config.stage_id = 3;
-                //Go to the 4th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"5th STG", style_for_button)) {
-                Config.stage_id = 4;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval)*2, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"6th STG", style_for_button)) {
-                Config.stage_id = 5;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset, y_offset + (bt_size_y + interval) *2, bt_size_x, bt_size_y),"7th STG", style_for_button)) {
-                Config.stage_id = 6;
-                //Go to the 4th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
         }
     }
 }
