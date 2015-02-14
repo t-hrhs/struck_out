@@ -20,7 +20,7 @@ public static class Config {
 
     //TODO : あとで消す
     public static int panel_width_num = 4;
-    public static int[] panel_height_num = {3,3,3,3,3,3,3};
+    public static int[] panel_height_num = {3,3,3,3,3,3,3,3,3,3,3,3};
 
     //3. ステージ情報
     //3-1. パネルの情報
@@ -109,9 +109,69 @@ public static class Config {
             new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
             new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
         },
+        //ステージ8
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
+        //ステージ9
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
+        //ステージ10
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
+        //ステージ11
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
+        //ステージ12
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
+        },
     };
     //3-2. ボール数の情報
-    public static int[] ball_num = {15,15,15,15,15,15,15};
+    public static int[] ball_num = {15,15,15,15,15,15,15,15,15,15,15,15};
     //3-3. 障害物の情報
     public static Dictionary<string, float>[][] obstacle_config = new Dictionary<string, float>[][]{
         //ステージ1(障害物0個)
@@ -141,6 +201,11 @@ public static class Config {
         //ステージ6
         new Dictionary<string, float>[] {
             new Dictionary<string, float>() {{"x",0.297467f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",1}},
+        },
+        //ステージ7
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.297467f},{"y",2.407805f},{"z",-2.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",1}},
+            new Dictionary<string, float>() {{"x",0.297467f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",6}},
         },
         //ステージ3
         new Dictionary<string, float>[] {
