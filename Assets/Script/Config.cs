@@ -216,45 +216,14 @@ public static class Config {
         //ステージ9
         new Dictionary<string, float>[] {
             new Dictionary<string, float>() {{"x",0.297467f},{"y",2.407805f},{"z",-2.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",1}},
-            new Dictionary<string, float>() {{"x",0.297467f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",6}},
+            new Dictionary<string, float>() {{"x",0.297267f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",6}},
             new Dictionary<string, float>() {{"x",-2.297467f},{"y",3.407805f},{"z",-1.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",1}},
         },
-        //ステージ3
+        //ステージ10
         new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",1}},
-            new Dictionary<string, float>() {{"x",-0.297467f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",1}},
-            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",1}},
-        },
-        //ステージ3
-        new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",2.714815f},{"y",2.838175f},{"z",-4.009133f},{"obs_id",1.0f},{"type",1}},
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-4.009132f},{"obs_id",1.0f},{"type",1}},
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"type",3}},
-            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"type",4}},
-        },
-        //ステージ4
-        new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",2.714815f},{"y",2.838175f},{"z",-4.009133f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-4.009132f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",3}},
-            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",4}},
-        },
-        //ステージ5
-        new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",5.512368f},{"y",2.838175f},{"z",-4.009134f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
-            new Dictionary<string, float>() {{"x",0.2544718f},{"y",6.566844f},{"z",-4.391799f},{"obs_id",1.0f},{"scale_x",2.0f},{"scale_y",2.0f},{"scale_z",0.50f},{"type",2}},
-            new Dictionary<string, float>() {{"x",-4.407021f},{"y",2.838175f},{"z",-4.009131f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",2}},
-            new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.838175f},{"z",-0.9656441f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",3}},
-            new Dictionary<string, float>() {{"x",2.714816f},{"y",2.838175f},{"z",-0.9656457f},{"obs_id",1.0f},{"scale_x",0.85f},{"scale_y",0.85f},{"scale_z",0.50f},{"type",4}},
-        },
-        //ステージ6
-        new Dictionary<string, float>[] {},
-        //ステージ7
-        new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",0.2865039f},{"y",1.98f},{"z",-0.3636186f},{"obs_id",2.0f},{"scale_x",4.00f},{"scale_y",4.00f},{"scale_z",1.50f},{"type",1}},
-            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-2.36186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",3}},
-            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-5.936186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",4}},
-            new Dictionary<string, float>() {{"x",0.2865039f},{"y",0.98f},{"z",-6.936186f},{"obs_id",2.0f},{"scale_x",2.00f},{"scale_y",2.00f},{"scale_z",0.50f},{"type",7}},
+            new Dictionary<string, float>() {{"x",0.297467f},{"y",2.407805f},{"z",-2.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",1}},
+            new Dictionary<string, float>() {{"x",2.714816f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",4}},
+            new Dictionary<string, float>() {{"x",-2.297467f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",3}},
         },
     };
 
