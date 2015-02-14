@@ -87,15 +87,15 @@ public static class Config {
         },
         //ステージ6
         new Dictionary<string, float>[] {
-            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
-            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f},{"p_id",1.0f}},
+            new Dictionary<string, float>() {{"x",0.27f},{"y",0.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",4.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-6.15f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",-1.65f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",2.85f},{"y",2.93f},{"z",11.0f}},
+            new Dictionary<string, float>() {{"x",7.35f},{"y",2.93f},{"z",11.0f}},
         },
         //ステージ7
         new Dictionary<string, float>[] {
@@ -137,6 +137,10 @@ public static class Config {
             new Dictionary<string, float>() {{"x",-2.297467f},{"y",2.407805f},{"z",-2.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",2}},
             new Dictionary<string, float>() {{"x",-1.297467f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",2}},
             new Dictionary<string, float>() {{"x",-3.714816f},{"y",2.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",1.50f},{"scale_y",3.00f},{"scale_z",1.00f},{"type",2}},
+        },
+        //ステージ6
+        new Dictionary<string, float>[] {
+            new Dictionary<string, float>() {{"x",0.297467f},{"y",3.407805f},{"z",-0.9656441f},{"obs_id",2.0f},{"scale_x",3.00f},{"scale_y",6.00f},{"scale_z",0.50f},{"type",1}},
         },
         //ステージ3
         new Dictionary<string, float>[] {
