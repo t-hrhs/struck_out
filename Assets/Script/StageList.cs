@@ -29,7 +29,7 @@ public class StageList : MonoBehaviour {
         Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
         //TODO : ここらへん定数をどこかに持っていきたい
         //style_for_button = new GUIStyle();
-        style_for_button.fontSize = (int)40 * Config.s_height/1080;
+  style_for_button.fontSize = (int)1 * Config.s_height/1080;
         style_for_button.normal.textColor = Color.white;
         int x_offset = (int)(Config.s_width * 0.05);
         int y_offset = (int)(Config.s_height * 0.15);

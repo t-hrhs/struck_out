@@ -14,12 +14,12 @@ public class Panel : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //ありえない方向にパネルが動き出したらその場停止
-        if (this.rigidbody.velocity.z < 0) {
-            this.rigidbody.velocity = Vector3.zero;
+        if (this.GetComponent<Rigidbody>().velocity.z < 0) {
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
         } else {
             if (this.transform.position.z > (float)judge_point_z) {
                 //constraintの初期化
-                this.rigidbody.constraints = RigidbodyConstraints.None;
+                this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 //this.active = false;
                 if (!this.clear_flag) {
                     //NOTE : ここでは足さず、連続ボーナス等をまとめて
@@ -35,15 +35,15 @@ public class Panel : MonoBehaviour {
 
     public void make_target(int temp) {
         this.point = 1000 * temp;
-        this.renderer.material.color = Color.red;
+        this.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void setDefault() {
-        this.renderer.material.color = Color.white;
+        this.GetComponent<Renderer>().material.color = Color.white;
         this.point = 1000;
     }
     public void set_texture(int index) {
         this.transform.Rotate(0, 180, 0);
-        this.renderer.material.mainTexture=textures[index];
+        this.GetComponent<Renderer>().material.mainTexture=textures[index];
     }
 }

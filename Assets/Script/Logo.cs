@@ -13,14 +13,14 @@ public class Logo : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 	    if (GameController.animation) {
-            this.renderer.material.mainTexture = textures[index];
+            this.GetComponent<Renderer>().material.mainTexture = textures[index];
             index++;
             if (index > 73) {
                 index = 0;
             }
         } else {
             index = 0;
-            this.renderer.material.mainTexture = textures[index];
+            this.GetComponent<Renderer>().material.mainTexture = textures[index];
         }
 	}
 }
