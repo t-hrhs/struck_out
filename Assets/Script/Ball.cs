@@ -30,14 +30,14 @@ public class Ball : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (
-                (this.transform.position.z > 12.0f && this.rigidbody.velocity.magnitude < 2.0 ||
+                (this.transform.position.z > 12.0f && this.GetComponent<Rigidbody>().velocity.magnitude < 2.0 ||
                  this.transform.position.x > 13 ||
                  this.transform.position.x < -8 ||
-                 this.rigidbody.velocity.magnitude < 0.1f ||
-                 this.rigidbody.velocity.z < 0) && 
+                 this.GetComponent<Rigidbody>().velocity.magnitude < 0.1f ||
+                 this.GetComponent<Rigidbody>().velocity.z < 0) && 
                 GameController.game_status == 1)  {
-            this.rigidbody.angularVelocity = Vector3.zero;
-            this.rigidbody.velocity = Vector3.zero;
+            this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.transform.position = ball_standard_position;
             GameController.game_status = 2;
         }
@@ -83,7 +83,7 @@ public class Ball : MonoBehaviour {
         //temp = new Vector3(temp.x * rate, 15.0f * power/100 ,temp.z * rate);
         temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
         //temp = temp.normalized * power * 0.36f;
-        this.rigidbody.velocity = temp;
+        this.GetComponent<Rigidbody>().velocity = temp;
         audioSource.clip = shout_sound;
         audioSource.Play();
     }
@@ -106,8 +106,8 @@ public class Ball : MonoBehaviour {
 
     void FixedUpdate() {
         if (GameController.game_status == 1) {
-            float temp = (float)this.rigidbody.velocity.x + ac_x;
-            this.rigidbody.velocity = new Vector3(temp, this.rigidbody.velocity.y, this.rigidbody.velocity.z);
+            float temp = (float)this.GetComponent<Rigidbody>().velocity.x + ac_x;
+            this.GetComponent<Rigidbody>().velocity = new Vector3(temp, this.GetComponent<Rigidbody>().velocity.y, this.GetComponent<Rigidbody>().velocity.z);
         }
     }
 

@@ -53,7 +53,7 @@ public class Obstacle : MonoBehaviour {
 	}
     void move_up_down() {
         if (this.transform.position.y < this.transform.localScale.y/2) {
-            this.rigidbody.velocity = new Vector3(0.0f,10.0f,0.0f);
+            this.GetComponent<Rigidbody>().velocity = new Vector3(0.0f,10.0f,0.0f);
         }
     }
     void move_left_side() {
