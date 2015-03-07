@@ -6,7 +6,6 @@ public class GameController : MonoBehaviour {
     // GUIボタン等の設定を保持するObject
     public GUISkin style;
     public GUIStyle style_for_status;
-    public GUIStyle style_for_button;
 
     /* ---------------------
     GameStatus
@@ -260,7 +259,6 @@ public class GameController : MonoBehaviour {
     void OnGUI () {
         GUI.skin = style;
         style_for_status.fontSize = (int)(36 * Config.s_height/1080);
-        style_for_button.fontSize = (int)(40 * Config.s_height/1080);
 		Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.065f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
 		string score = "スコア : ";
 		GUI.Label(rect,score, style_for_status);
@@ -277,7 +275,7 @@ public class GameController : MonoBehaviour {
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect5,power,style_for_status);
         //調整ボタン
-        if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!", style_for_button)) {
+        if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!")) {
             GameObject indicator = GameObject.Find ("BallIndicator");
             GameObject pointer = GameObject.Find ("Pointer");
                 game_status = 0;
