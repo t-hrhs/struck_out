@@ -273,7 +273,7 @@ public class GameController : MonoBehaviour {
 		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.14f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
 		string ball_num = total_ball_num.ToString() + "個";
 		GUI.Label(rect4,ball_num,style_for_status);  
-        Rect rect5 = new Rect(10,(float)Config.s_height*0.82f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+        Rect rect5 = new Rect(10,(float)Config.s_height*0.70f,(float)Config.s_width*0.80f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
         GUI.Label(rect5,power,style_for_status);
         //調整ボタン

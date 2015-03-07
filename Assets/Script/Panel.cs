@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Panel : MonoBehaviour {
-    public static double judge_point_z = 12.0f;
+    public static double judge_point_z = 11.8f;
     public bool clear_flag = false;
     public int point = 1000;
     public Texture2D[] textures = new Texture2D[9];
@@ -27,6 +27,7 @@ public class Panel : MonoBehaviour {
                     GameController.panel_remaining_num--;
                 }
                 this.clear_flag = true;
+                this.GetComponent<Renderer>().enabled = false;
                 //colliderの判定をoffにする
                 //this.collider.enabled = false;
             }
