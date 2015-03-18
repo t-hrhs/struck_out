@@ -52,7 +52,8 @@ public class Obstacle : MonoBehaviour {
         }
 	}
     void move_up_down() {
-        if (this.transform.position.y < this.transform.localScale.y/2) {
+        //TODO : resolve magic number
+        if (this.transform.position.y <=   (1.51f *   (this.transform.localScale.y / 0.18f))) {
             this.GetComponent<Rigidbody>().velocity = new Vector3(0.0f,10.0f,0.0f);
         }
     }
@@ -69,10 +70,10 @@ public class Obstacle : MonoBehaviour {
             current_position.y,
             current_position.z
         );
-        if (this.transform.position.x > -0.8f) {
+        if (this.transform.position.x > -1.0f) {
             operate = 1;
         }
-        if (this.transform.position.x < -6.6f) {
+        if (this.transform.position.x < -6.0f) {
             operate = 2;
         }
     }
@@ -89,7 +90,7 @@ public class Obstacle : MonoBehaviour {
             current_position.y,
             current_position.z
         );
-        if (this.transform.position.x < 1.2f) {
+        if (this.transform.position.x < 2.0f) {
             operate = 1;
         }
         if (this.transform.position.x > 7.0f) {

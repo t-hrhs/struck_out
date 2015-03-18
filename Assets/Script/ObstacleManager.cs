@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ObstacleManager {
     //panelファイルは動的に変わらないのでstatic宣言
-    private static String[] panel_files = {"Prefab/Obstacle_v5","Prefab/Kuma"};
+    private static String[] panel_files = {"Prefab/Obstacle_v5","Prefab/Obstacle_v2"};
     //panelのGameObjectメソッドもclass methodで作成
     public static GameObject make_obstacle_object(int stage_id, int index) {
         float x = Config.obstacle_config[stage_id][index]["x"];
@@ -38,6 +38,7 @@ public class ObstacleManager {
                 Config.obstacle_config [stage_id] [index] ["scale_z"]
             );
         }
+        obstacle_obj.transform.rotation = Quaternion.Euler( 90,180,0 );
         return obstacle;
     }
 }
