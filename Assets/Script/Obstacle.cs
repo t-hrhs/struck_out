@@ -100,7 +100,7 @@ public class Obstacle : MonoBehaviour {
     void move_left_to_right() {
         Vector3 current_position = this.transform.position;
         float temp_x = current_position.x;
-        Debug.Log(temp_x);
+        //Debug.Log(temp_x);
         if (temp_x < right_edge_position) {
             temp_x += 0.05f;
             this.transform.position = new Vector3(
@@ -120,7 +120,7 @@ public class Obstacle : MonoBehaviour {
     void move_right_to_left() {
         Vector3 current_position = this.transform.position;
         float temp_x = current_position.x;
-        Debug.Log(temp_x);
+        //Debug.Log(temp_x);
         if (temp_x > left_edge_position) {
             temp_x -= 0.05f;
             this.transform.position = new Vector3(

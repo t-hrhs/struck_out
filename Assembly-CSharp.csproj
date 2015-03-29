@@ -59,7 +59,9 @@
      <Compile Include="Assets\Script\PopupManager.cs" />
      <Compile Include="Assets\Script\PowerGauge.cs" />
      <Compile Include="Assets\Script\ResultPage.cs" />
+     <Compile Include="Assets\Script\StageAbs.cs" />
      <Compile Include="Assets\Script\StageList.cs" />
+     <Compile Include="Assets\Script\StageListManager.cs" />
      <Compile Include="Assets\Script\TopPage.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

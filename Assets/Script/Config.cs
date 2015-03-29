@@ -19,6 +19,7 @@ public static class Config {
     public static int stage_id = 0;
 
     //TODO : あとで消す
+    public static int total_stage_num = 12;
     public static int panel_width_num = 4;
     public static int[] panel_height_num = {3,3,3,3,3,3,3,3,3,3,3,3};
 

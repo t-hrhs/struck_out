@@ -91,8 +91,8 @@ public class Ball : MonoBehaviour {
     float _calculate_ac_coefficient(Vector3 flick_start_position) {
         float judge_distance = 0.5f;
         Vector3 jundge_position = GameController.ball_start_position;
-        Debug.Log(jundge_position);
-        Debug.Log (flick_start_position);
+        //Debug.Log(jundge_position);
+        //Debug.Log (flick_start_position);
         //発射位置がボールがそれほど離れていないかったらカーブをかけない
         if (ball_type == 0) {
             return 0;

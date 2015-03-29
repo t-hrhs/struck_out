@@ -1,13 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/ResultPage.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/StageListManager.cs">
     <Files>
-      <File FileName="Assets/Script/Config.cs" Line="15" Column="47" />
+      <File FileName="Assets/Script/Config.cs" Line="22" Column="44" />
       <File FileName="Assets/Script/PopupManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/ObstacleManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/Obstacle.cs" Line="92" Column="11" />
-      <File FileName="Assets/Script/ResultPage.cs" Line="15" Column="18" />
-      <File FileName="Assets/Script/TopPage.cs" Line="6" Column="38" />
+      <File FileName="Assets/Script/StageListManager.cs" Line="44" Column="14" />
+      <File FileName="Assets/Script/StageList.cs" Line="48" Column="26" />
+      <File FileName="Assets/Script/StageAbs.cs" Line="5" Column="16" />
+      <File FileName="Assets/Script/ObstacleManager.cs" Line="41" Column="72" />
+      <File FileName="Assets/Script/GameController.cs" Line="88" Column="27" />
+      <File FileName="Assets/Script/TopPage.cs" Line="25" Column="54" />
+      <File FileName="Assets/Script/PanelManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

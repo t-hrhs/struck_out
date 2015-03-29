@@ -2,127 +2,65 @@
 using System.Collections;
 
 public class StageList : MonoBehaviour {
-    public GUISkin style;
     public GUIStyle style_for_title;
+    public GUIStyle style_for_button;
     public int user_clear_stage = 0;
+    public int page = 0;
+    public StageAbs[] stage_list = new StageAbs[StageListManager.stage_num_per_page];
     // Use this for initialization
     void Start () {
         if (PlayerPrefs.HasKey("user_stage")) {
             user_clear_stage = PlayerPrefs.GetInt("user_stage");
         }
+        page = 0;
+        stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
     }
 
     // Update is called once per frame
     void Update () {
-
+        if(Input.GetMouseButtonDown(0)) {
+            check_touch_stg_abs_and_go();
+        }
     }
 
     void OnGUI () {
         //説明画面に飛ぶ為のボタンを設置する
-        GUI.skin = style;
-        style_for_title = new GUIStyle();
         style_for_title.fontSize = (int)80 * Config.s_height/1080;
         style_for_title.normal.textColor = Color.white;
         Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
-        //TODO : ここらへん定数をどこかに持っていきたい
+        GUI.Label(rect,"Stage一覧", style_for_title);
+        //説明画面に飛ぶ為のボタンを設置する
+        style_for_button.fontSize = (int)36 *  Config.s_height/1080;;
         int x_offset = (int)(Config.s_width * 0.05);
         int y_offset = (int)(Config.s_height * 0.15);
-        int interval = 5;
-        int bt_size_x = (int)((Config.s_width-x_offset * 2)/3 - interval);
+        int tmp = (int)(Config.s_height * 0.85);
+        int interval=5;
+        int bt_size_x = (int)((Config.s_width-x_offset * 2)/2);
         int bt_size_y = (int)((Config.s_height-y_offset * 2)/6 - interval);
-        GUI.Label(rect,"StageList", style_for_title);
-        if (GUI.Button(new Rect(x_offset, y_offset, bt_size_x, bt_size_y),"1st STG")) {
-            Config.stage_id = 0;
-            //Go to the 1st STG
-            Application.LoadLevel("GameScene");
-            //Application.LoadLevel("explain_stage_1");
+        if (StageListManager.should_show_prev_page(page) && GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"prev",style_for_button)) {
+            page--;
+            StageListManager.destroyAll(stage_list);
+            stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
         }
-        if (user_clear_stage > 0) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset, bt_size_x, bt_size_y),"2nd STG")) {
-                Config.stage_id = 1;
-                //Go to the 2nd STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
+        if (StageListManager.should_show_next_page(page) && GUI.Button(new Rect(x_offset * 2 + bt_size_x, tmp, bt_size_x, bt_size_y),"next",style_for_button)) {
+            page++;
+            StageListManager.destroyAll(stage_list);
+            stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
         }
-        if (user_clear_stage > 1) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval) * 2, y_offset, bt_size_x, bt_size_y),"3rd STG")) {
-                Config.stage_id = 2;
-                //Go to the 3rd STG
+    }
+
+    void check_touch_stg_abs_and_go() {
+        //マウスカーソルからのRay発射
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) {
+            //オブジェクトに全く衝突しなかった場合
+            Debug.Log (hit.collider.gameObject);
+            GameObject ball = GameObject.Find("SoccerBall");
+            if(hit.collider.gameObject.tag == "StageAbs") {
+                StageAbs hit_stage_abs = hit.collider.gameObject.GetComponent<StageAbs>();
+                Config.stage_id = hit_stage_abs.stage_id;
                 Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 2) {
-            if (GUI.Button(new Rect(x_offset, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"4th STG")) {
-                Config.stage_id = 3;
-                //Go to the 4th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"5th STG")) {
-                Config.stage_id = 4;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval)*2, y_offset + bt_size_y + interval, bt_size_x, bt_size_y),"6th STG")) {
-                Config.stage_id = 5;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset, y_offset + (bt_size_y + interval)*2, bt_size_x, bt_size_y),"7th STG")) {
-                Config.stage_id = 6;
-                //Go to the 4th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset + (bt_size_y + interval)*2, bt_size_x, bt_size_y),"8th STG")) {
-                Config.stage_id = 7;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval)*2, y_offset + (bt_size_y + interval)*2, bt_size_x, bt_size_y),"9th STG")) {
-                Config.stage_id = 8;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset, y_offset + (bt_size_y + interval)*3, bt_size_x, bt_size_y),"10th STG")) {
-                Config.stage_id = 9;
-                //Go to the 4th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + bt_size_x + interval, y_offset + (bt_size_y + interval)*3, bt_size_x, bt_size_y),"11th STG")) {
-                Config.stage_id = 10;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
-            }
-        }
-        if (user_clear_stage > 3) {
-            if (GUI.Button(new Rect(x_offset + (bt_size_x + interval)*2, y_offset + (bt_size_y + interval)*3, bt_size_x, bt_size_y),"12th STG")) {
-                Config.stage_id = 11;
-                //Go to the 5th STG
-                Application.LoadLevel("GameScene");
-                //Application.LoadLevel("explain_stage_1");
             }
         }
     }
