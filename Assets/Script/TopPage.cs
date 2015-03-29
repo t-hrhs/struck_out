@@ -19,8 +19,6 @@ public class TopPage : MonoBehaviour {
 
     void OnGUI () {
         //説明画面に飛ぶ為のボタンを設置する
-        style_for_title.fontSize = (int)80 * Config.s_height/1080;
-        style_for_title.normal.textColor = Color.white;
         style_for_button.fontSize = (int)36 *  Config.s_height/1080;
         Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
         int x_offset = (int)(Config.s_width * 0.05);
@@ -29,7 +27,6 @@ public class TopPage : MonoBehaviour {
         int interval = 5;
         int bt_size_x = (int)((Config.s_width-x_offset * 2) - interval);
         int bt_size_y = (int)((Config.s_height-y_offset * 2)/6 - interval);
-        GUI.Label(rect,"Kick Target", style_for_title);
         if (GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"遊ぶ!!",style_for_button)) {
             Config.stage_id = 0;
             //Go to the 1st STG
