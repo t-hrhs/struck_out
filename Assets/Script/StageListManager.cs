@@ -33,7 +33,7 @@ public class StageListManager {
             );
             stage_abs.transform.localScale = base_scale;
             StageAbs stage_abs_obj = stage_abs.GetComponent<StageAbs> ();
-            stage_abs_obj.stage_id = i;
+            stage_abs_obj.stage_id = page * stage_num_per_page + i;
             String test2 = stage_list_base_path + (page*stage_num_per_page + i+1);
             Texture2D tex = (Texture2D) Resources.Load(test2, typeof(Texture2D));
             stage_abs.GetComponent<Renderer>().material.mainTexture = tex;
@@ -45,13 +45,14 @@ public class StageListManager {
         }
         return answer;
     }
-    public static bool should_show_next_page(int page) {
+    public static bool should_show_next_page(int page,int user_progress) {
+        max_page_num = (int)user_progress/stage_num_per_page;
         if (page < max_page_num) {
             return true;
         }
         return false;
     }
-    public static bool should_show_prev_page(int page) {
+    public static bool should_show_prev_page(int page,int user_progress) {
         if (page < 1) {
             return false;
         }

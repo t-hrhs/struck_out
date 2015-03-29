@@ -37,12 +37,12 @@ public class StageList : MonoBehaviour {
         int interval=5;
         int bt_size_x = (int)((Config.s_width-x_offset * 2)/2);
         int bt_size_y = (int)((Config.s_height-y_offset * 2)/6 - interval);
-        if (StageListManager.should_show_prev_page(page) && GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"prev",style_for_button)) {
+        if (StageListManager.should_show_prev_page(page, user_clear_stage) && GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"prev",style_for_button)) {
             page--;
             StageListManager.destroyAll(stage_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
         }
-        if (StageListManager.should_show_next_page(page) && GUI.Button(new Rect(x_offset * 2 + bt_size_x, tmp, bt_size_x, bt_size_y),"next",style_for_button)) {
+        if (StageListManager.should_show_next_page(page, user_clear_stage) && GUI.Button(new Rect(x_offset * 2 + bt_size_x, tmp, bt_size_x, bt_size_y),"next",style_for_button)) {
             page++;
             StageListManager.destroyAll(stage_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
