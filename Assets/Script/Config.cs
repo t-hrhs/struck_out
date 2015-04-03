@@ -13,6 +13,7 @@ public static class Config {
     //1. 端末情報
     public static int s_width = Screen.width;
     public static int s_height = Screen.height;
+    public static int modal_button_num = 2;
     //2. ステージ進捗情報
     //NOTE : ステージ名-1にしている(indexは0からはじまるため)
     public static int stage_id = 0;
@@ -21,7 +22,6 @@ public static class Config {
     public static int total_stage_num = 12;
     public static int panel_width_num = 4;
     public static int[] panel_height_num = {3,3,3,3,3,3,3,3,3,3,3,3};
-
     //3. ステージ情報
     //3-1. パネルの情報
     public static Dictionary<string, float>[][] panel_config = new Dictionary<string, float>[][]{

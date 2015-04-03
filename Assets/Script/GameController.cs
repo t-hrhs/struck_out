@@ -230,6 +230,26 @@ public class GameController : MonoBehaviour {
                     pointer.GetComponent<Pointer> ().update_change_array();
                 }
             }
+            //メニューボタンをタッチしたい場合
+            else if (hit.collider.gameObject.tag == "MenuButton") {
+               if (game_status == 4 || game_status == 0) {
+                    GameObject modal_obj = GameObject.Find("Modal");
+                    Modal modal = modal_obj.GetComponent<Modal>();
+                    if (game_status == 4) {
+                        modal.close_window();
+                        game_status = 0;
+                    } else {
+                        modal.open_window();
+                        game_status = 4;
+                    }
+               }
+            }
+            //モーダルボタンをタッチした場合
+            else if (hit.collider.gameObject.tag == "ModalButton") {
+                ModalButton modal_button = hit.collider.gameObject.GetComponent<ModalButton>();
+                modal_button.activate_event_by_button_type();
+                game_status = 0;
+            }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
             return hit.point;
@@ -273,7 +293,10 @@ public class GameController : MonoBehaviour {
 		GUI.Label(rect4,ball_num,style_for_status);  
         Rect rect5 = new Rect(10,(float)Config.s_height*0.70f,(float)Config.s_width*0.80f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
-        GUI.Label(rect5,power,style_for_status);
+        //TODO : ここはなんとかしないと後で大変そう
+        if (game_status != 4) {
+            GUI.Label(rect5,power,style_for_status);
+        }
         //調整ボタン
         if (game_status == 3 && GUI.Button (new Rect ((float)Config.s_width * 0.25f, (float)Config.s_height * 0.875f, (float)Config.s_width * 0.5f, (float)Config.s_height * 0.10f), "これで蹴る!!", style_for_button)) {
             GameObject indicator = GameObject.Find ("BallIndicator");
