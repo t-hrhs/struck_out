@@ -13,7 +13,7 @@ public static class Config {
     //1. 端末情報
     public static int s_width = Screen.width;
     public static int s_height = Screen.height;
-    public static int menu_button_num = 1;
+    public static int modal_button_num = 2;
     //2. ステージ進捗情報
     //NOTE : ステージ名-1にしている(indexは0からはじまるため)
     public static int stage_id = 0;

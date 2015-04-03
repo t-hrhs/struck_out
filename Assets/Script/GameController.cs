@@ -244,6 +244,12 @@ public class GameController : MonoBehaviour {
                     }
                }
             }
+            //モーダルボタンをタッチした場合
+            else if (hit.collider.gameObject.tag == "ModalButton") {
+                ModalButton modal_button = hit.collider.gameObject.GetComponent<ModalButton>();
+                modal_button.activate_event_by_button_type();
+                game_status = 0;
+            }
             //衝突したオブジェクトがある場合はその地点の座標を取得
             Vector3 hit_point = hit.point;
             return hit.point;
