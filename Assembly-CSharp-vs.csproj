@@ -52,6 +52,7 @@
      <Compile Include="Assets\Script\GameController.cs" />
      <Compile Include="Assets\Script\HowToPlay.cs" />
      <Compile Include="Assets\Script\Logo.cs" />
+     <Compile Include="Assets\Script\Modal.cs" />
      <Compile Include="Assets\Script\Obstacle.cs" />
      <Compile Include="Assets\Script\ObstacleManager.cs" />
      <Compile Include="Assets\Script\Panel.cs" />
