@@ -25,9 +25,12 @@ public class TopPage : MonoBehaviour {
         int y_offset = (int)(Config.s_height * 0.15);
         int tmp = (int)(Config.s_height * 0.85);
         int interval = 5;
-        int bt_size_x = (int)((Config.s_width-x_offset * 2) - interval);
+        int bt_size_x = (int)((Config.s_width-x_offset * 2)/2 - interval);
         int bt_size_y = (int)((Config.s_height-y_offset * 2)/6 - interval);
-        if (GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"遊ぶ!!",style_for_button)) {
+        if (GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y),"遊び方",style_for_button)) {
+            Application.LoadLevel("HowToPlay");
+        }
+        if (GUI.Button(new Rect(x_offset * 2 + bt_size_x, tmp, bt_size_x, bt_size_y),"遊ぶ!!",style_for_button)) {
             Config.stage_id = 0;
             //Go to the 1st STG
             Application.LoadLevel("StageList");
