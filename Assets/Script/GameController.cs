@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour {
     public static bool animation = false;
 	// Use this for initialization
 	void Start () {
+        Application.targetFrameRate =  15;
         seed = Environment.TickCount;
         rnd = new System.Random(seed);
         audioSource = this.GetComponent<AudioSource>();
@@ -131,6 +132,7 @@ public class GameController : MonoBehaviour {
                 //距離の判定はここで行う
                 //Debug.Log ((point - flick_start_position).magnitude);
                 if ((point - flick_start_position).magnitude >= 5) {
+                    Application.targetFrameRate = 60;
                     flick_end_position = point;
                     //ボールObjectを取得してボールを発射する
                     GameObject ball = GameObject.Find ("SoccerBall");
@@ -190,6 +192,7 @@ public class GameController : MonoBehaviour {
                 }
                 panel_choice();
             }
+            Application.targetFrameRate =  15;
         }
 	}
 
@@ -279,16 +282,16 @@ public class GameController : MonoBehaviour {
     void OnGUI () {
         style_for_status.fontSize = (int)(36 * Config.s_height/1080);
         style_for_button.fontSize = (int)(36 * Config.s_height/1080);
-		Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.065f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
+		Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.055f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
 		string score = "スコア : ";
 		GUI.Label(rect,score, style_for_status);
-		Rect rect2 = new Rect ((float)Config.s_width*0.55f, (float)Config.s_height*0.065f, (float)Config.s_width * 0.45f, (float)Config.s_height * 0.06f);
+		Rect rect2 = new Rect ((float)Config.s_width*0.55f, (float)Config.s_height*0.055f, (float)Config.s_width * 0.45f, (float)Config.s_height * 0.06f);
 		string point = total_score.ToString() + "点";
 		GUI.Label(rect2, point, style_for_status);
-		Rect rect3 = new Rect((float)Config.s_width*0.05f,(float)Config.s_height*0.14f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+		Rect rect3 = new Rect((float)Config.s_width*0.05f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string rest_ball = "残りボール数 : ";
         GUI.Label(rect3,rest_ball,style_for_status);
-		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.14f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
 		string ball_num = total_ball_num.ToString() + "個";
 		GUI.Label(rect4,ball_num,style_for_status);  
         Rect rect5 = new Rect(10,(float)Config.s_height*0.70f,(float)Config.s_width*0.80f,(float)Config.s_height*0.06f);
