@@ -8,7 +8,7 @@ public class TopPage : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Screen.fullScreen = false;
-        Application.targetFrameRate =  15;
+        Application.targetFrameRate =  45;
         if (PlayerPrefs.HasKey("user_stage")) {
             user_clear_stage = PlayerPrefs.GetInt("user_stage");
         }

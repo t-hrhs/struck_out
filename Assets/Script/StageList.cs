@@ -9,7 +9,7 @@ public class StageList : MonoBehaviour {
     public StageAbs[] stage_list = new StageAbs[StageListManager.stage_num_per_page];
     // Use this for initialization
     void Start () {
-        Application.targetFrameRate =  15;
+        Application.targetFrameRate =  45;
         if (PlayerPrefs.HasKey("user_stage")) {
             user_clear_stage = PlayerPrefs.GetInt("user_stage");
         }
