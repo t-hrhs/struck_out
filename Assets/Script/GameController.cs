@@ -173,12 +173,25 @@ public class GameController : MonoBehaviour {
                }
             }
             if (ok) {
-                int tmp = 0;
+                int user_current_stage = 0;
                 if (PlayerPrefs.HasKey("user_stage")) {
-                    tmp = PlayerPrefs.GetInt("user_stage");
+                    user_current_stage = PlayerPrefs.GetInt("user_stage");
                 }
-                if (tmp < (Config.stage_id + 1)) {
+                if (user_current_stage < (Config.stage_id + 1)) {
                     PlayerPrefs.SetInt("user_stage",(Config.stage_id + 1));
+                }
+                // get current score and previous score to check update or not (Best5 only)
+                int tmp_score = total_score;
+                for (int i = 0; i < Config.user_high_score_num; i++) {
+                    int high_score = 0;
+                    String highscore_key = "user_score_" + (Config.stage_id + 1).ToString() + "_" + (i+1).ToString();
+                    if (PlayerPrefs.HasKey(highscore_key)) {
+                        high_score = PlayerPrefs.GetInt(highscore_key);
+                    }
+                    if (tmp_score > high_score) {
+                        PlayerPrefs.SetInt(highscore_key,tmp_score);
+                        tmp_score = high_score;
+                    }
                 }
                 Application.LoadLevel("ResultPage");
             } else if (total_ball_num == 0) {

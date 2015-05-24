@@ -10,6 +10,9 @@ Configクラス
  3. 各ステージ構成をテキストで保持
 ----------------------------------------- */
 public static class Config {
+    //0. user high score num
+    public static int user_high_score_num = 5;
+
     //1. 端末情報
     public static int s_width = Screen.width;
     public static int s_height = Screen.height;
