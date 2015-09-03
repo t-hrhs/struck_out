@@ -9,7 +9,8 @@ public class Ranking : MonoBehaviour {
 	public int stage_id = 0;
 	// Use this for initialization
 	void Start () {
-
+		// ranking_stage_idをconfigから取得
+		stage_id = Config.ranking_stage_id;
 	}
 
 	// Update is called once per frame
@@ -33,17 +34,18 @@ public class Ranking : MonoBehaviour {
 		for (int i = 0; i < Config.user_high_score_num; i++) {
 			int tmp_score = 0;
 			String highscore_key = "user_score_" + (stage_id +1).ToString() + "_" + (i+1).ToString();
+			int score = 0;
 			if (PlayerPrefs.HasKey(highscore_key)) {
-				int score = PlayerPrefs.GetInt(highscore_key);
-				GUI.Label(new Rect(
-					(float)Config.s_width * 0.58f,
-					(float)Config.s_height * (0.25f + 0.12f *i),
-					(float)Config.s_width * 0.9f,
-					(float)Config.s_height*0.25f),
-					score.ToString() + "点",
-					style_for_ranking
-				);
+				score = PlayerPrefs.GetInt(highscore_key);
 			}
+			GUI.Label(new Rect(
+				(float)Config.s_width * 0.58f,
+				(float)Config.s_height * (0.25f + 0.12f *i),
+				(float)Config.s_width * 0.9f,
+				(float)Config.s_height*0.25f),
+				score.ToString() + "点",
+				style_for_ranking
+			);
 		}
 	}
 }

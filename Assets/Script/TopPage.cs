@@ -34,10 +34,5 @@ public class TopPage : MonoBehaviour {
             Config.stage_id = 0;
             Application.LoadLevel("StageList");
         }
-        if (GUI.Button(new Rect( bt_x_offset, bt_y_offset + bt_size_y * 1.25f, bt_size_x, bt_size_y),"ランキング",style_for_button)) {
-            Config.stage_id = 0;
-            //Go to ranking page
-            Application.LoadLevel("Ranking");
-        }
     }
 }
