@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class StageList : MonoBehaviour {
@@ -19,9 +20,16 @@ public class StageList : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(Input.GetMouseButtonDown(0)) {
-            check_touch_stg_abs_and_go();
+      if(Input.GetMouseButtonDown(0)) {
+        GameObject touched_object = get_touch_object();
+        if (touched_object.tag == "back_button") {
+          Application.LoadLevel("TopPage");
+        } else if (touched_object.tag == "StageAbs") {
+          StageAbs hit_stage_abs = touched_object.GetComponent<StageAbs>();
+          Config.stage_id = hit_stage_abs.stage_id;
+          Application.LoadLevel("GameScene");
         }
+      }
     }
 
     void OnGUI () {
@@ -48,20 +56,18 @@ public class StageList : MonoBehaviour {
         }
     }
 
-    void check_touch_stg_abs_and_go() {
-        //マウスカーソルからのRay発射
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) {
-            //オブジェクトに全く衝突しなかった場合
-            Debug.Log (hit.collider.gameObject);
-            GameObject ball = GameObject.Find("SoccerBall");
-            if(hit.collider.gameObject.tag == "StageAbs") {
-                StageAbs hit_stage_abs = hit.collider.gameObject.GetComponent<StageAbs>();
-                Config.stage_id = hit_stage_abs.stage_id;
-                Application.LoadLevel("GameScene");
-            }
+    //タッチしたobjectのタグを返す
+    //TODO : Utilに持っていきたい
+    GameObject get_touch_object() {
+      //マウスカーソルからのRay発射
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      // tagのついているobjectをタッチした場合
+      if (Physics.Raycast(ray, out hit)) {
+        if (hit.collider.gameObject.tag != "") {
+          return hit.collider.gameObject;
         }
+      }
+      return null;
     }
 }
-

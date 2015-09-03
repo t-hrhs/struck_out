@@ -15,7 +15,27 @@ public class Ranking : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetMouseButtonUp(0)) {
+			GameObject touched_object = get_touch_object();
+			if (touched_object.tag == "back_button") {
+				Application.LoadLevel("TopPage");
+			}
+		}
+	}
 
+	//タッチしたobjectのタグを返す
+	//TODO : Utilに持っていきたい
+	GameObject get_touch_object() {
+		//マウスカーソルからのRay発射
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		// tagのついているobjectをタッチした場合
+		if (Physics.Raycast(ray, out hit)) {
+			if (hit.collider.gameObject.tag != "") {
+				return hit.collider.gameObject;
+			}
+		}
+		return null;
 	}
 
 	void OnGUI () {
