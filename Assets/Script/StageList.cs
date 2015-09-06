@@ -24,7 +24,7 @@ public class StageList : MonoBehaviour {
     void Update () {
       if(Input.GetMouseButtonDown(0)) {
         GameObject touched_object = get_touch_object();
-        if (touched_object.tag == "back_button") {
+        if (touched_object.tag == "top_button") {
           Application.LoadLevel("TopPage");
         } else if (touched_object.tag == "StageAbs") {
           StageAbs hit_stage_abs = touched_object.GetComponent<StageAbs>();
