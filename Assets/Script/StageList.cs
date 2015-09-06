@@ -30,8 +30,12 @@ public class StageList : MonoBehaviour {
           StageAbs hit_stage_abs = touched_object.GetComponent<StageAbs>();
           Config.stage_id = hit_stage_abs.stage_id;
           Application.LoadLevel("GameScene");
+        } else if (touched_object.tag == "high_score") {
+          HighScore high_score = touched_object.GetComponent<HighScore>();
+          Config.ranking_stage_id = high_score.stage_id;
+          Application.LoadLevel("Ranking");
         }
-      }
+       }
     }
 
     void OnGUI () {
