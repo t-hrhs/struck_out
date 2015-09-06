@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class StageList : MonoBehaviour {
@@ -7,6 +8,7 @@ public class StageList : MonoBehaviour {
     public int user_clear_stage = 0;
     public int page = 0;
     public StageAbs[] stage_list = new StageAbs[StageListManager.stage_num_per_page];
+    public HighScore[] high_score_list = new HighScore[StageListManager.stage_num_per_page];
     // Use this for initialization
     void Start () {
         Application.targetFrameRate =  45;
@@ -15,13 +17,25 @@ public class StageList : MonoBehaviour {
         }
         page = 0;
         stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
+        high_score_list = StageListManager.make_high_score_list_obj (page, user_clear_stage);
     }
 
     // Update is called once per frame
     void Update () {
-        if(Input.GetMouseButtonDown(0)) {
-            check_touch_stg_abs_and_go();
+      if(Input.GetMouseButtonDown(0)) {
+        GameObject touched_object = get_touch_object();
+        if (touched_object.tag == "back_button") {
+          Application.LoadLevel("TopPage");
+        } else if (touched_object.tag == "StageAbs") {
+          StageAbs hit_stage_abs = touched_object.GetComponent<StageAbs>();
+          Config.stage_id = hit_stage_abs.stage_id;
+          Application.LoadLevel("GameScene");
+        } else if (touched_object.tag == "high_score") {
+          HighScore high_score = touched_object.GetComponent<HighScore>();
+          Config.ranking_stage_id = high_score.stage_id;
+          Application.LoadLevel("Ranking");
         }
+       }
     }
 
     void OnGUI () {
@@ -38,30 +52,30 @@ public class StageList : MonoBehaviour {
         float bt_size_y = Config.s_height * 0.05f;
         if (StageListManager.should_show_prev_page(page, user_clear_stage) && GUI.Button(new Rect(bt_x_offset, bt_y_offset, bt_size_x, bt_size_y),"prev",style_for_button)) {
             page--;
-            StageListManager.destroyAll(stage_list);
+            StageListManager.destroyAll(stage_list, high_score_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
+            high_score_list = StageListManager.make_high_score_list_obj (page, user_clear_stage);
         }
         if (StageListManager.should_show_next_page(page, user_clear_stage) && GUI.Button(new Rect(bt_x_offset * 2 + bt_size_x, bt_y_offset, bt_size_x, bt_size_y),"next",style_for_button)) {
             page++;
-            StageListManager.destroyAll(stage_list);
+            StageListManager.destroyAll(stage_list, high_score_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
+            high_score_list = StageListManager.make_high_score_list_obj (page, user_clear_stage);
         }
     }
 
-    void check_touch_stg_abs_and_go() {
-        //マウスカーソルからのRay発射
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) {
-            //オブジェクトに全く衝突しなかった場合
-            Debug.Log (hit.collider.gameObject);
-            GameObject ball = GameObject.Find("SoccerBall");
-            if(hit.collider.gameObject.tag == "StageAbs") {
-                StageAbs hit_stage_abs = hit.collider.gameObject.GetComponent<StageAbs>();
-                Config.stage_id = hit_stage_abs.stage_id;
-                Application.LoadLevel("GameScene");
-            }
+    //タッチしたobjectのタグを返す
+    //TODO : Utilに持っていきたい
+    GameObject get_touch_object() {
+      //マウスカーソルからのRay発射
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      // tagのついているobjectをタッチした場合
+      if (Physics.Raycast(ray, out hit)) {
+        if (hit.collider.gameObject.tag != "") {
+          return hit.collider.gameObject;
         }
+      }
+      return null;
     }
 }
-

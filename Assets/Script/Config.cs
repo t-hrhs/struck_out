@@ -21,6 +21,9 @@ public static class Config {
     //NOTE : ステージ名-1にしている(indexは0からはじまるため)
     public static int stage_id = 0;
 
+    //3. ranking閲覧用
+    public static int ranking_stage_id = 0;
+
     //TODO : あとで消す
     public static int total_stage_num = 12;
     public static int panel_width_num = 4;
