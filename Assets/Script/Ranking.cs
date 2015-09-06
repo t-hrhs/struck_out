@@ -17,7 +17,7 @@ public class Ranking : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonUp(0)) {
 			GameObject touched_object = get_touch_object();
-			if (touched_object.tag == "back_button") {
+			if (touched_object.tag == "top_button") {
 				Application.LoadLevel("TopPage");
 			}
 		}
