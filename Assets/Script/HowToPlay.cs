@@ -18,24 +18,29 @@ public class HowToPlay : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+      if(Input.GetMouseButtonDown(0)) {
+        GameObject touched_object = get_touch_object();
+        if (touched_object.tag == "top_button") {
+          Application.LoadLevel("TopPage");
+        }
+      }
     }
 
     void OnGUI () {
         Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
         Rect left_arrow = new Rect(
             (int)(Config.s_width * 0.53),
-            (int)(Config.s_height * 0.89),
+            (int)(Config.s_height * 0.91),
             (int)(Config.s_width * 0.1),
             (int)(Config.s_height * 0.05)
         );
         Rect right_arrow = new Rect(
             (int)(Config.s_width * 0.83),
-            (int)(Config.s_height * 0.89),
+            (int)(Config.s_height * 0.91),
             (int)(Config.s_width * 0.1),
             (int)(Config.s_height * 0.05)
             );
-        style_for_button.fontSize = (int)36 * Config.s_height/1080;
+        /*style_for_button.fontSize = (int)36 * Config.s_height/1080;
         int x_offset = (int)(Config.s_width * 0.05);
         int y_offset = (int)(Config.s_height * 0.15);
         int tmp = (int)(Config.s_height * 0.85);
@@ -44,7 +49,7 @@ public class HowToPlay : MonoBehaviour {
         int bt_size_y = (int)((Config.s_height - y_offset * 2)/8 - interval);
         if(GUI.Button(new Rect(x_offset, tmp, bt_size_x, bt_size_y), "Top", style_for_button)) {
             Application.LoadLevel("TopPage");
-        }
+        }*/
          //  pager
         if (page  == 0) {
           if(GUI.Button(left_arrow, "", style_for_left_arrow_disable)) {
@@ -74,5 +79,17 @@ public class HowToPlay : MonoBehaviour {
                 how_to_bg_obj.GetComponent<Renderer>().material.mainTexture = tex;
             }
         }
+    }
+    GameObject get_touch_object() {
+      //マウスカーソルからのRay発射
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      // tagのついているobjectをタッチした場合
+      if (Physics.Raycast(ray, out hit)) {
+        if (hit.collider.gameObject.tag != "") {
+          return hit.collider.gameObject;
+        }
+      }
+      return null;
     }
 }
