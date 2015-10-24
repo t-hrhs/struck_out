@@ -42,8 +42,6 @@ public class StageList : MonoBehaviour {
         //説明画面に飛ぶ為のボタンを設置する
         style_for_title.fontSize = (int)80 * Config.s_height/1080;
         style_for_title.normal.textColor = Color.white;
-        Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
-        GUI.Label(rect,"Stage一覧", style_for_title);
         //説明画面に飛ぶ為のボタンを設置する
         style_for_button.fontSize = (int)36 *  Config.s_height/1080;
         float bt_x_offset = Config.s_width  *  0.05f;
