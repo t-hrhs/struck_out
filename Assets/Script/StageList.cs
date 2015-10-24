@@ -3,10 +3,13 @@ using System;
 using System.Collections;
 
 public class StageList : MonoBehaviour {
-    public GUIStyle style_for_title;
-    public GUIStyle style_for_button;
     public int user_clear_stage = 0;
-    public int page = 0;
+    public GUIStyle style_for_left_arrow;
+    public GUIStyle style_for_left_arrow_disable;
+    public GUIStyle style_for_right_arrow;
+    public GUIStyle style_for_right_arrow_disable;
+    public int page=0;
+    public int page_num = 2;
     public StageAbs[] stage_list = new StageAbs[StageListManager.stage_num_per_page];
     public HighScore[] high_score_list = new HighScore[StageListManager.stage_num_per_page];
     // Use this for initialization
@@ -39,27 +42,43 @@ public class StageList : MonoBehaviour {
     }
 
     void OnGUI () {
-        //説明画面に飛ぶ為のボタンを設置する
-        style_for_title.fontSize = (int)80 * Config.s_height/1080;
-        style_for_title.normal.textColor = Color.white;
-        //説明画面に飛ぶ為のボタンを設置する
-        style_for_button.fontSize = (int)36 *  Config.s_height/1080;
-        float bt_x_offset = Config.s_width  *  0.05f;
-        float bt_y_offset = Config.s_height  *  0.90f;
-        float bt_size_x = Config.s_width  * ((0.9f-0.05f*(2-1))/2);
-        float bt_size_y = Config.s_height * 0.05f;
-        if (StageListManager.should_show_prev_page(page, user_clear_stage) && GUI.Button(new Rect(bt_x_offset, bt_y_offset, bt_size_x, bt_size_y),"prev",style_for_button)) {
+      Rect left_arrow = new Rect(
+          (int)(Config.s_width * 0.53),
+          (int)(Config.s_height * 0.91),
+          (int)(Config.s_width * 0.1),
+          (int)(Config.s_height * 0.05)
+      );
+      Rect right_arrow = new Rect(
+          (int)(Config.s_width * 0.83),
+          (int)(Config.s_height * 0.91),
+          (int)(Config.s_width * 0.1),
+          (int)(Config.s_height * 0.05)
+          );
+       //  pager
+      if (page  == 0) {
+        if(GUI.Button(left_arrow, "", style_for_left_arrow_disable)) {
+          //nothing to do
+         }
+      } else {
+          if(GUI.Button(left_arrow, "", style_for_left_arrow)) {
             page--;
             StageListManager.destroyAll(stage_list, high_score_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
             high_score_list = StageListManager.make_high_score_list_obj (page, user_clear_stage);
-        }
-        if (StageListManager.should_show_next_page(page, user_clear_stage) && GUI.Button(new Rect(bt_x_offset * 2 + bt_size_x, bt_y_offset, bt_size_x, bt_size_y),"next",style_for_button)) {
+          }
+      }
+      if (page + 1 == page_num) {
+          if(GUI.Button(right_arrow, "", style_for_right_arrow_disable)) {
+            //nothing to do
+          }
+      } else {
+          if(GUI.Button(right_arrow, "", style_for_right_arrow)) {
             page++;
             StageListManager.destroyAll(stage_list, high_score_list);
             stage_list = StageListManager.make_stage_list_obj (page, user_clear_stage);
             high_score_list = StageListManager.make_high_score_list_obj (page, user_clear_stage);
-        }
+          }
+      }
     }
 
     //タッチしたobjectのタグを返す
