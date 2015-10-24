@@ -24,13 +24,13 @@ public class HowToPlay : MonoBehaviour {
     void OnGUI () {
         Rect rect = new Rect(10,10,(float)Config.s_width*0.9f,(float)Config.s_height * 0.12f);
         Rect left_arrow = new Rect(
-            (int)(Config.s_width * 0.33),
+            (int)(Config.s_width * 0.53),
             (int)(Config.s_height * 0.89),
             (int)(Config.s_width * 0.1),
             (int)(Config.s_height * 0.05)
         );
         Rect right_arrow = new Rect(
-            (int)(Config.s_width * 0.58),
+            (int)(Config.s_width * 0.83),
             (int)(Config.s_height * 0.89),
             (int)(Config.s_width * 0.1),
             (int)(Config.s_height * 0.05)
@@ -76,4 +76,3 @@ public class HowToPlay : MonoBehaviour {
         }
     }
 }
-
