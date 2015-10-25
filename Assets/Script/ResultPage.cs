@@ -17,7 +17,7 @@ public class ResultPage : MonoBehaviour {
     if (Input.GetMouseButtonUp(0)) {
       GameObject touched_object = get_touch_object();
       if (touched_object.tag == "stage_list_btn") {
-        Config.stage_id = 0;
+        //Config.stage_id = 0;
         Application.LoadLevel("StageList");
       }
     }
