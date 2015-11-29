@@ -26,7 +26,7 @@ public class Ball : MonoBehaviour {
 	    power = 0;
         ball_type = 0;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         if (
@@ -34,7 +34,7 @@ public class Ball : MonoBehaviour {
                  this.transform.position.x > 13 ||
                  this.transform.position.x < -8 ||
                  this.GetComponent<Rigidbody>().velocity.magnitude < 0.1f ||
-                 this.GetComponent<Rigidbody>().velocity.z < 0) && 
+                 this.GetComponent<Rigidbody>().velocity.z < 0) &&
                 GameController.game_status == 1)  {
             this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             this.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -77,11 +77,13 @@ public class Ball : MonoBehaviour {
             power = 16;
         }
         Vector3 temp = flick_end_position-flick_start_position;
+        Debug.Log(temp.z);
         temp = temp * 25.0f/temp.z;
         float rate = GameController.ball_panel_distance / temp.z;
         temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
         //temp = new Vector3(temp.x * rate, 15.0f * power/100 ,temp.z * rate);
-        temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.28f;
+        temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.27f;
+        temp = new Vector3(temp.x, temp.y, temp.z * 0.85f);
         //temp = temp.normalized * power * 0.36f;
         this.GetComponent<Rigidbody>().velocity = temp;
         audioSource.clip = shout_sound;

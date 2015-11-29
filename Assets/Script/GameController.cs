@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour {
         panel_choice();
         audioSource.Play();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         //Debug.Log (is_flick_start);
@@ -131,7 +131,7 @@ public class GameController : MonoBehaviour {
                 Vector3 point = get_touch_point ();
                 //距離の判定はここで行う
                 //Debug.Log ((point - flick_start_position).magnitude);
-                if ((point - flick_start_position).magnitude >= 5) {
+                if ((point - flick_start_position).magnitude >= 3) {
                     Application.targetFrameRate = 60;
                     flick_end_position = point;
                     //ボールObjectを取得してボールを発射する
@@ -306,7 +306,7 @@ public class GameController : MonoBehaviour {
         GUI.Label(rect3,rest_ball,style_for_status);
 		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
 		string ball_num = total_ball_num.ToString() + "個";
-		GUI.Label(rect4,ball_num,style_for_status);  
+		GUI.Label(rect4,ball_num,style_for_status);
         Rect rect5 = new Rect(10,(float)Config.s_height*0.70f,(float)Config.s_width*0.80f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
         //TODO : ここはなんとかしないと後で大変そう
