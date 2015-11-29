@@ -77,7 +77,6 @@ public class Ball : MonoBehaviour {
             power = 16;
         }
         Vector3 temp = flick_end_position-flick_start_position;
-        Debug.Log(temp.z);
         temp = temp * 25.0f/temp.z;
         float rate = GameController.ball_panel_distance / temp.z;
         temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
