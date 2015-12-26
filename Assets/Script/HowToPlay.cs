@@ -9,7 +9,7 @@ public class HowToPlay : MonoBehaviour {
     public GUIStyle style_for_right_arrow_disable;
     public int page=0;
     public int page_num = 2;
-    private static String how_to_bg_base_path = "Img/how_to_page0";
+    private static String how_to_bg_base_path = "Img/HowToPlay/how_to_page0";
     // Use this for initialization
     void Start () {
         page=0;
