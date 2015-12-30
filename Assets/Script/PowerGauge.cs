@@ -3,14 +3,14 @@ using System.Collections;
 
 public class PowerGauge : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	    this.transform.position = new Vector3(-1.13f,2.15f,-15.4f);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    float power = Ball.power;
+// Use this for initialization
+    void Start () {
+        this.transform.position = new Vector3(-1.13f,2.15f,-15.4f);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        float power = Ball.power;
         /*if (power < 33) {
             this.renderer.material.color = Color.blue;
         } else if (power < 66) {
@@ -29,5 +29,5 @@ public class PowerGauge : MonoBehaviour {
             1.65f + this.transform.localScale.y,
             this.transform.position.z
         );
-	}
+    }
 }
