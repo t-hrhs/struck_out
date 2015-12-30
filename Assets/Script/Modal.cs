@@ -5,10 +5,10 @@ using System.Collections;
 public class Modal : MonoBehaviour {
     private GameObject sub_cam;
     private GameObject[] modal_buttons;
-	// Use this for initialization
-	void Start () {
-	    this.GetComponent<Collider>().enabled = false;
-	    this.GetComponent<Renderer>().enabled = false;
+    // Use this for initialization
+    void Start () {
+        this.GetComponent<Collider>().enabled = false;
+        this.GetComponent<Renderer>().enabled = false;
         int modal_button_num = Config.modal_button_num;
         modal_buttons = new GameObject[modal_button_num];
         String base_button_name = "ModalButton";
@@ -20,16 +20,16 @@ public class Modal : MonoBehaviour {
             modal_buttons[i-1] = tmp;
             tmp.SetActive(false);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+    }
     //open the modal window
     public void open_window() {
-	    this.GetComponent<Collider>().enabled = true;
-	    this.GetComponent<Renderer>().enabled = true;
+        this.GetComponent<Collider>().enabled = true;
+        this.GetComponent<Renderer>().enabled = true;
         // disable SubCamera
         GameObject SubCam = GameObject.Find("SubCamera");
         if (SubCam != null) {
@@ -41,8 +41,8 @@ public class Modal : MonoBehaviour {
         }
     }
     public void close_window() {
-	    this.GetComponent<Collider>().enabled = false;
-	    this.GetComponent<Renderer>().enabled = false;
+        this.GetComponent<Collider>().enabled = false;
+        this.GetComponent<Renderer>().enabled = false;
         if (sub_cam != null) {
             sub_cam.SetActive(true);
         }

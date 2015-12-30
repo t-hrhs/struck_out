@@ -5,17 +5,17 @@ public class TopPage : MonoBehaviour {
     public GUIStyle style_for_title;
     public GUIStyle style_for_button;
     public int user_clear_stage = 0;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Screen.fullScreen = false;
         Application.targetFrameRate =  45;
         if (PlayerPrefs.HasKey("user_stage")) {
             user_clear_stage = PlayerPrefs.GetInt("user_stage");
         }
-	}
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
     if(Input.GetMouseButtonDown(0)) {
       GameObject touched_object = get_touch_object();
       if (touched_object.tag == "how_to_btn") {
@@ -25,7 +25,7 @@ public class TopPage : MonoBehaviour {
         Application.LoadLevel("StageList");
       }
     }
-	}
+    }
 
   //タッチしたobjectのタグを返す
   //TODO : Utilに持っていきたい

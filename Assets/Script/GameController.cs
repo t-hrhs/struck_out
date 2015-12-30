@@ -295,18 +295,18 @@ public class GameController : MonoBehaviour {
     void OnGUI () {
         style_for_status.fontSize = (int)(36 * Config.s_height/1080);
         style_for_button.fontSize = (int)(36 * Config.s_height/1080);
-		Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.055f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
-		string score = "スコア : ";
-		GUI.Label(rect,score, style_for_status);
-		Rect rect2 = new Rect ((float)Config.s_width*0.55f, (float)Config.s_height*0.055f, (float)Config.s_width * 0.45f, (float)Config.s_height * 0.06f);
-		string point = total_score.ToString() + "点";
-		GUI.Label(rect2, point, style_for_status);
-		Rect rect3 = new Rect((float)Config.s_width*0.05f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+        Rect rect = new Rect((float)Config.s_width*0.05f, (float)Config.s_height*0.055f,(float)Config.s_width*0.45f,(float)Config.s_height*0.06f);
+        string score = "スコア : ";
+        GUI.Label(rect,score, style_for_status);
+        Rect rect2 = new Rect ((float)Config.s_width*0.55f, (float)Config.s_height*0.055f, (float)Config.s_width * 0.45f, (float)Config.s_height * 0.06f);
+        string point = total_score.ToString() + "点";
+        GUI.Label(rect2, point, style_for_status);
+        Rect rect3 = new Rect((float)Config.s_width*0.05f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
         string rest_ball = "残りボール数 : ";
         GUI.Label(rect3,rest_ball,style_for_status);
-		Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
-		string ball_num = total_ball_num.ToString() + "個";
-		GUI.Label(rect4,ball_num,style_for_status);
+        Rect rect4 = new Rect((float)Config.s_width*0.55f,(float)Config.s_height*0.13f,(float)Config.s_width*0.9f,(float)Config.s_height*0.06f);
+        string ball_num = total_ball_num.ToString() + "個";
+        GUI.Label(rect4,ball_num,style_for_status);
         Rect rect5 = new Rect(10,(float)Config.s_height*0.70f,(float)Config.s_width*0.80f,(float)Config.s_height*0.06f);
         string power = "パワー : " + ((int)Ball.power).ToString();
         //TODO : ここはなんとかしないと後で大変そう

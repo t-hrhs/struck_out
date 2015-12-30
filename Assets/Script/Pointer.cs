@@ -10,15 +10,16 @@ public class Pointer : MonoBehaviour {
     public static float[] heights = {0.0f,0.0f,0.0f,0.0f,11.0f,11.0f,11.0f,11.0f,11.0f,13.0f,13.0f,13.0f,15.0f};
     public static float ball_height;
     public static Vector3[] positions;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         update_change_array ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update () {
 
     }
+    
     public void change_position(Vector3 mouse_input) {
         mouse_input = new Vector3(
             mouse_input.x,
