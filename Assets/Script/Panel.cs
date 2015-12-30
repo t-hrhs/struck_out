@@ -6,13 +6,13 @@ public class Panel : MonoBehaviour {
     public bool clear_flag = false;
     public int point = 1000;
     public Texture2D[] textures = new Texture2D[9];
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
         //ありえない方向にパネルが動き出したらその場停止
         if (this.GetComponent<Rigidbody>().velocity.z < 0) {
             this.GetComponent<Rigidbody>().velocity = Vector3.zero;
