@@ -55,22 +55,34 @@ public class Ball : MonoBehaviour {
         ac_x = ac_max * (float)Pointer.ac_prop();
         //初速のベクトルの決定
         if (total_ms < 150) {
-            power = 80;
+            power = 100;
         } else if (total_ms < 300) {
-            power = 64;
+            power = 90;
         } else if (total_ms < 400) {
-            power = 48;
-        } else if (total_ms < 600) {
-            power = 32;
+            power = 75;
+        } else if (total_ms < 500) {
+            power = 50;
         } else {
-            power = 16;
+            power = 30;
         }
         Vector3 temp = flick_end_position-flick_start_position;
-        temp = temp * 25.0f/temp.z;
-        float rate = GameController.ball_panel_distance / temp.z;
-        temp = new Vector3(temp.x,Pointer.ball_height, temp.z);
-        temp = (temp.normalized * base_power + temp.normalized * power * (1 - base_power * 0.01f)) * 0.27f;
-        temp = new Vector3(temp.x, temp.y, temp.z * 0.85f);
+        float v_y = Pointer.ball_height;
+        Vector3 v_x_z = new Vector3(temp.x, 0, temp.z);
+        Vector3 normalized_v_x_z = v_x_z.normalized;
+        // ループシュート狙いかどうか
+        if (v_y <= 12.0f) {
+            temp = new Vector3(
+                normalized_v_x_z.x * (16 + power/2) * 0.35f,
+                Pointer.ball_height/20.0f * (16 + power/2) * 0.34f,
+                normalized_v_x_z.z * (16 + power/2) * 0.39f
+            );
+        } else {
+            temp = new Vector3(
+                normalized_v_x_z.x * (16 + power/2) * 0.33f,
+                Pointer.ball_height/20.0f * (16 + power/2) * 0.35f,
+                normalized_v_x_z.z * (16 + power/2) * 0.20f
+            );
+        }
         this.GetComponent<Rigidbody>().velocity = temp;
         audioSource.clip = shout_sound;
         audioSource.Play();
