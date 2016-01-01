@@ -11,13 +11,6 @@ public class PowerGauge : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         float power = Ball.power;
-        /*if (power < 33) {
-            this.renderer.material.color = Color.blue;
-        } else if (power < 66) {
-            this.renderer.material.color = Color.yellow;
-        } else {
-            this.renderer.material.color = Color.red;
-        }*/
         float rare = power/100;
         this.transform.localScale = new Vector3(
             this.transform.localScale.x,

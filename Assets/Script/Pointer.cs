@@ -7,7 +7,7 @@ public class Pointer : MonoBehaviour {
     public static int current_index = 6;
     public static float cyclinder_radius;
     public static float pointer_radius;
-    public static float[] heights = {0.0f,0.0f,0.0f,0.0f,11.0f,11.0f,11.0f,11.0f,11.0f,13.0f,13.0f,13.0f,15.0f};
+    public static float[] heights = {0.0f,0.0f,0.0f,0.0f,10.0f,10.0f,10.0f,10.0f,10.0f,11.0f,11.0f,11.0f,14.0f};
     public static float ball_height;
     public static Vector3[] positions;
     // Use this for initialization
@@ -19,7 +19,7 @@ public class Pointer : MonoBehaviour {
     void Update () {
 
     }
-    
+
     public void change_position(Vector3 mouse_input) {
         mouse_input = new Vector3(
             mouse_input.x,
